@@ -11,11 +11,11 @@ interface KingdomLogoProps {
 export default function KingdomLogo({ size = 'md', showLink = true }: KingdomLogoProps) {
   const sizeClasses = {
     sm: {
-      title: 'text-xl tracking-[0.2em]',
-      subtitle: 'text-[7px] tracking-[0.35em]',
-      star: 'w-2 h-2',
-      divider: 'w-8 h-[1px]',
-      gap: 'gap-1',
+      title: 'text-sm sm:text-xl tracking-[0.16em] sm:tracking-[0.2em]',
+      subtitle: 'hidden sm:block text-[7px] tracking-[0.35em]',
+      star: 'w-1.5 h-1.5 sm:w-2 sm:h-2',
+      divider: 'hidden sm:block w-8 h-[1px]',
+      gap: 'gap-0 sm:gap-1',
     },
     md: {
       title: 'text-2xl sm:text-3xl tracking-[0.25em]',
