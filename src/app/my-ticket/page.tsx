@@ -40,10 +40,10 @@ export default function MyTicketPage() {
   };
 
   return (
-    <div className="pt-28 pb-20 bg-[#070A0F] min-h-screen font-sans text-zinc-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="pt-28 pb-20 bg-[#070A0F] min-h-screen font-sans text-zinc-300 print:p-0 print:m-0 print:bg-[#071B36] print:min-h-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 print:p-0 print:m-0 print:max-w-full">
         
-        <div className="text-center mb-10 space-y-3">
+        <div className="text-center mb-10 space-y-3 print:hidden">
           <KingdomLogo size="sm" showLink={false} />
 
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#071B36] border border-[#D4AF5A]/30 text-[#9CA3AF] text-xs font-mono uppercase mb-2">
@@ -59,8 +59,8 @@ export default function MyTicketPage() {
           </p>
         </div>
 
-        {/* Search Bar */}
-        <form onSubmit={handleLookup} className="max-w-xl mx-auto mb-12">
+        {/* Search Bar - Hidden on Print */}
+        <form onSubmit={handleLookup} className="max-w-xl mx-auto mb-12 print:hidden">
           <div className="flex flex-col sm:flex-row gap-2 font-mono">
             <input
               type="text"
@@ -84,7 +84,7 @@ export default function MyTicketPage() {
         </form>
 
         {errorMsg && (
-          <div className="max-w-xl mx-auto p-4 bg-red-950/80 border border-red-500 text-red-400 text-xs flex items-center gap-3 font-mono">
+          <div className="max-w-xl mx-auto p-4 bg-red-950/80 border border-red-500 text-red-400 text-xs flex items-center gap-3 font-mono print:hidden">
             <AlertCircle className="w-5 h-5 shrink-0" />
             <span>{errorMsg}</span>
           </div>

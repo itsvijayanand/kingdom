@@ -121,35 +121,68 @@ html.lenis, html.lenis body {
   border-radius: 1rem;
 }
 
-/* Print Optimization Media Query for Concert Pass */
+/* Print Optimization Media Query for Concert Pass - Fits Strictly on 1 Single Landscape Sheet */
 @media print {
-  header, footer, nav, button, .print\:hidden, .fixed {
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+
+  header, footer, nav, button, form, .print\:hidden, .no-print {
     display: none !important;
   }
 
-  body, html {
+  html, body {
     background-color: #071B36 !important;
     color: #E8E8E5 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     margin: 0 !important;
     padding: 0 !important;
-    height: auto !important;
-    min-height: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
   }
 
   main {
-    padding: 1rem !important;
-    min-height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+    height: 100vh !important;
   }
 
   .printable-ticket {
-    margin: 0 auto !important;
-    max-width: 100% !important;
+    margin: auto !important;
+    width: 95vw !important;
+    max-width: 1100px !important;
     page-break-inside: avoid !important;
+    break-inside: avoid !important;
     border: 2px solid #D4AF5A !important;
     box-shadow: none !important;
     background-color: #071B36 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Force 3-Zone horizontal pass layout on print */
+  .printable-ticket .grid {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+  .printable-ticket .lg\:col-span-4 {
+    grid-column: span 4 / span 4 !important;
+  }
+  .printable-ticket .hidden.lg\:block {
+    display: block !important;
+  }
+  .printable-ticket .lg\:border-b-0 {
+    border-bottom-width: 0px !important;
+  }
+  .printable-ticket .lg\:border-r {
+    border-right-width: 1px !important;
   }
 }
 

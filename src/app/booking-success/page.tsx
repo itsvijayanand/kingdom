@@ -34,11 +34,11 @@ function BookingSuccessContent() {
   }, [ticketNumber]);
 
   return (
-    <div className="pt-28 pb-20 bg-[#070A0F] min-h-screen font-sans text-zinc-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="pt-28 pb-20 bg-[#070A0F] min-h-screen font-sans text-zinc-300 print:p-0 print:m-0 print:bg-[#071B36] print:min-h-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 print:p-0 print:m-0 print:max-w-full">
         
-        {/* Banner */}
-        <div className="text-center mb-10 space-y-4">
+        {/* Banner - Hidden on Print */}
+        <div className="text-center mb-10 space-y-4 print:hidden">
           <KingdomLogo size="sm" showLink={false} />
           
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#071B36] border border-[#D4AF5A]/40 text-[#E6C878] text-xs uppercase tracking-widest rounded-full font-mono">
