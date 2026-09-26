@@ -58,6 +58,31 @@ body {
   background: radial-gradient(circle at 50% 80%, rgba(11, 35, 69, 0.4) 0%, rgba(7, 10, 15, 0) 80%);
 }
 
+/* Lenis & Smooth Scroll Transitions */
+html {
+  scroll-behavior: smooth;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
@@ -72,3 +97,4 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #E6C878;
 }
+

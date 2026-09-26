@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import KingdomLogo from '@/components/KingdomLogo';
 import { Button } from '@/components/Button';
-import { ArrowUpRight, Calendar, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Calendar, MapPin, ShieldCheck, Sparkles, ChevronDown } from 'lucide-react';
+import { useSmoothScroll } from '@/components/SmoothScrollProvider';
 
 export default function HeroSection() {
   const [timeLeft, setTimeLeft] = useState({ days: 36, hours: 14, minutes: 22, seconds: 45 });
+  const { scrollTo } = useSmoothScroll();
 
   useEffect(() => {
     const target = new Date('2026-10-31T20:00:00.000Z').getTime();
@@ -131,14 +133,28 @@ export default function HeroSection() {
           </Button>
 
           <Button
-            href="/event"
+            href="#about"
             variant="secondary"
             size="lg"
             className="w-full sm:w-auto h-11 sm:h-12 px-8 text-xs font-bold"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollTo('#about');
+            }}
           >
             EXPLORE EVENT
           </Button>
         </div>
+
+        {/* Smooth Scroll Down Indicator */}
+        <button
+          onClick={() => scrollTo('#about')}
+          className="mt-10 group flex flex-col items-center gap-1.5 text-[#D4AF5A] hover:text-[#E6C878] transition-colors focus:outline-none"
+          aria-label="Scroll down to content"
+        >
+          <span className="text-[9px] font-mono tracking-[0.2em] uppercase opacity-70 group-hover:opacity-100 transition-opacity">SCROLL TO DISCOVER</span>
+          <ChevronDown className="w-4 h-4 animate-bounce" />
+        </button>
 
       </div>
     </section>

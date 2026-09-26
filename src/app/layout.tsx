@@ -3,6 +3,9 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
+
 export const metadata: Metadata = {
   title: "NOCTURNE VELOCITY 2026 | Official Live Concert & Ticketing",
   description: "Official ticketing platform for Nocturne Velocity Live World Tour 2026. Cryptographically secured digital tickets, Razorpay checkout, and real-time gate validation.",
@@ -22,11 +25,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-[#050505] text-[#F3F3F7] selection:bg-[#FF1010] selection:text-white">
-        <Navbar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <SmoothScrollProvider>
+          <ScrollProgressBar />
+          <Navbar />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+        </SmoothScrollProvider>
       </body>
     </html>
   );
