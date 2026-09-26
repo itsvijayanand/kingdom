@@ -259,24 +259,27 @@ class ConcertDatabase {
       return { success: false, error: 'Selected ticket category is not available.' };
     }
 
-    if (quantity <= 0 || quantity > tType.max_per_order) {
-      return { success: false, error: `Maximum ${tType.max_per_order} tickets allowed per order.` };
+    const numQty = Math.max(1, Number(quantity) || 1);
+    const maxPerOrder = tType.max_per_order || 10;
+
+    if (numQty <= 0 || numQty > maxPerOrder) {
+      return { success: false, error: `Maximum ${maxPerOrder} tickets allowed per order.` };
     }
 
     const available = tType.capacity - (tType.sold_count + tType.reserved_count);
-    if (available < quantity) {
+    if (available < numQty) {
       return { success: false, error: `Only ${available} tickets left for ${tType.name}.` };
     }
 
     // Atomic increment reserved_count
-    tType.reserved_count += quantity;
+    tType.reserved_count += numQty;
 
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
     const reservation: TicketReservation = {
       id: `res-${crypto.randomBytes(6).toString('hex')}`,
       session_id: sessionId,
       ticket_type_id: ticketTypeId,
-      quantity,
+      quantity: numQty,
       expires_at: expiresAt,
       is_fulfilled: false,
       created_at: new Date().toISOString(),
@@ -306,13 +309,15 @@ class ConcertDatabase {
     }
 
     // Server-calculated total (NEVER trust price sent from browser)
-    const totalAmount = tType.price * res.quantity;
+    const numQty = res.quantity || 1;
+    const totalAmount = tType.price * numQty;
     const razorpayOrderId = `order_rzp_live_${crypto.randomBytes(8).toString('hex')}`;
     const orderNumber = `ORD-2026-${Math.floor(100000 + Math.random() * 900000)}`;
 
     const newOrder: Order = {
       id: `ord-${crypto.randomBytes(6).toString('hex')}`,
       order_number: orderNumber,
+      reservation_id: res.id,
       customer_name: customer.name,
       customer_email: customer.email,
       customer_phone: customer.phone,
@@ -380,7 +385,8 @@ class ConcertDatabase {
     });
 
     // 6. Fulfill Reservation & Generate Secure Cryptographic Tickets
-    const res = this.reservations.find(r => r.session_id && !r.is_fulfilled);
+    const res = (order.reservation_id ? this.reservations.find(r => r.id === order.reservation_id) : null) || 
+                this.reservations.find(r => !r.is_fulfilled);
     let ticketType = this.ticketTypes[1]; // default regular if reservation lookup fallback
 
     if (res) {
@@ -396,12 +402,12 @@ class ConcertDatabase {
     }
 
     const generatedTickets: TicketItem[] = [];
-    const numTickets = res ? res.quantity : 1;
+    const numTickets = res ? (res.quantity || 1) : 1;
 
     for (let i = 0; i < numTickets; i++) {
       const tktNum = `TKT-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
       // Signed secure token (HMAC hashed to prevent forgery)
-      const tokenPayload = `${tktNum}:${order.id}:${order.customer_email}:${Date.now()}`;
+      const tokenPayload = `${tktNum}:${order.id}:${order.customer_email}:${Date.now()}:${i}`;
       const secureToken = `QR-NOCTURNE-${ticketType.code}-${crypto.createHmac('sha256', process.env.QR_JWT_SECRET || 'secret').update(tokenPayload).digest('hex').substring(0, 16).toUpperCase()}`;
 
       const newTicket: TicketItem = {
@@ -416,6 +422,8 @@ class ConcertDatabase {
         secure_token: secureToken,
         status: 'VALID',
         created_at: new Date().toISOString(),
+        quantity: numTickets,
+        admit_count: numTickets,
       };
 
       this.tickets.push(newTicket);
