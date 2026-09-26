@@ -59,7 +59,7 @@ export default function TicketSelector() {
         return;
       }
 
-      router.push(`/checkout?reservationId=${json.data.id}`);
+      router.push(`/checkout?reservationId=${json.data.id}&ticketTypeId=${selectedTypeId}&quantity=${quantity}`);
     } catch (err) {
       setErrorMsg('Network error. Please try again.');
       setSubmitting(false);
