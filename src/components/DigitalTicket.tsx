@@ -47,7 +47,7 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
     window.print();
   };
 
-  // 1. Save Digital Pass directly as PDF file
+  // 1. Save Digital Pass directly as PDF file with high-density canvas rasterization
   const handleDownloadPdf = async () => {
     setIsGeneratingPdf(true);
     setToastMsg(null);
@@ -57,15 +57,21 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
       if (!element) return;
 
       const opt = {
-        margin: [8, 8, 8, 8],
+        margin: [10, 10, 10, 10],
         filename: `Kingdom-VIP-Pass-${ticket.ticket_number}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#070A0F' },
+        image: { type: 'jpeg', quality: 1.0 },
+        html2canvas: { 
+          scale: 3, 
+          useCORS: true, 
+          backgroundColor: '#070A0F',
+          letterRendering: true,
+          windowWidth: 1200,
+        },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
       };
 
       await html2pdf().set(opt).from(element).save();
-      setToastMsg(`✓ Kingdom Pass ${ticket.ticket_number} downloaded in PDF format!`);
+      setToastMsg(`✓ Kingdom Pass ${ticket.ticket_number} saved in PDF format!`);
     } catch (err) {
       console.error('PDF export error:', err);
       window.print();
@@ -151,45 +157,45 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
               </div>
             </div>
 
-            {/* Concert Headline & Tour Info */}
+            {/* Concert Headline & Tour Info (PDF-safe text colors without background-clip artifacts) */}
             <div>
               <span className="text-[10px] tracking-[0.3em] text-[#D4AF5A] font-mono font-bold uppercase block">// HEADLINE WORLD TOUR 2026</span>
-              <h2 className="font-serif font-black text-3xl sm:text-4xl text-white uppercase tracking-wider gold-gradient-text mt-1 leading-tight">
+              <h2 className="font-serif font-black text-3xl sm:text-4xl text-[#E6C878] uppercase tracking-wider mt-1 leading-tight drop-shadow-md">
                 {event.artist_name}
               </h2>
-              <p className="text-xs text-[#E6C878] font-mono font-bold tracking-widest uppercase mt-1">
+              <p className="text-xs text-[#F2DFA0] font-mono font-bold tracking-widest uppercase mt-1">
                 {event.title}
               </p>
             </div>
 
-            {/* Event Metadata Grid */}
-            <div className="grid grid-cols-2 gap-4 text-xs font-mono bg-[#070A0F]/70 p-4 border border-[#D4AF5A]/25 rounded-2xl">
-              <div>
+            {/* Event Metadata Grid with Extra Padding & Line Height to Prevent PDF Text Clipping */}
+            <div className="grid grid-cols-2 gap-4 text-xs font-mono bg-[#070A0F]/80 p-5 border border-[#D4AF5A]/25 rounded-2xl">
+              <div className="pb-1">
                 <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase">
                   <User className="w-3 h-3 text-[#D4AF5A]" /> PASS HOLDER
                 </span>
-                <div className="font-bold text-white text-sm mt-0.5 truncate">{ticket.customer_name}</div>
+                <div className="font-bold text-white text-sm pt-1 leading-relaxed truncate">{ticket.customer_name}</div>
               </div>
 
-              <div>
+              <div className="pb-1">
                 <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase">
                   <Ticket className="w-3 h-3 text-[#D4AF5A]" /> TICKET NO.
                 </span>
-                <div className="font-bold text-[#E6C878] text-sm mt-0.5 truncate">{ticket.ticket_number}</div>
+                <div className="font-bold text-[#E6C878] text-sm pt-1 leading-relaxed truncate">{ticket.ticket_number}</div>
               </div>
 
-              <div>
+              <div className="pb-1">
                 <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase">
                   <Calendar className="w-3 h-3 text-[#D4AF5A]" /> DATE & TIME
                 </span>
-                <div className="font-bold text-zinc-200 mt-0.5">OCT 31, 2026 • 8:00 PM</div>
+                <div className="font-bold text-zinc-200 text-xs pt-1 leading-relaxed">OCT 31, 2026 • 8:00 PM</div>
               </div>
 
-              <div>
+              <div className="pb-1">
                 <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase">
                   <MapPin className="w-3 h-3 text-[#D4AF5A]" /> ARENA & GATE
                 </span>
-                <div className="font-bold text-zinc-200 mt-0.5 truncate">{event.venue_name}</div>
+                <div className="font-bold text-zinc-200 text-xs pt-1 leading-relaxed truncate">{event.venue_name}</div>
               </div>
             </div>
 
