@@ -91,19 +91,19 @@ function CheckoutContent() {
         </div>
 
         {/* Gold Step Indicator */}
-        <div className="flex items-center justify-between border-b border-[#D4AF5A]/25 pb-6 mb-10 text-xs font-bold tracking-widest uppercase">
+        <div className="flex items-center justify-around sm:justify-between border-b border-[#D4AF5A]/25 pb-4 sm:pb-6 mb-8 sm:mb-10 text-[9px] sm:text-xs font-bold tracking-wider sm:tracking-widest uppercase gap-1">
           <div className="text-[#9CA3AF]">01 TICKETS</div>
           <div className="text-[#D4AF5A] underline decoration-[#D4AF5A]">02 DETAILS</div>
           <div className="text-[#E6C878]">03 PAYMENT</div>
           <div className="text-[#9CA3AF]">04 CONFIRMED</div>
         </div>
 
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#071B36] border border-[#D4AF5A]/30 text-[#E6C878] text-xs font-sans uppercase mb-3">
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#071B36] border border-[#D4AF5A]/30 text-[#E6C878] text-[10px] sm:text-xs font-sans uppercase mb-3 rounded-full">
             <Lock className="w-3.5 h-3.5 text-[#D4AF5A]" />
             SECURE 256-BIT ENCRYPTED CHECKOUT
           </div>
-          <h1 className="font-serif font-black text-4xl text-white tracking-wider uppercase">
+          <h1 className="font-serif font-black text-3xl sm:text-4xl text-white tracking-wider uppercase">
             COMPLETE YOUR <span className="gold-gradient-text">PASS ORDER</span>
           </h1>
         </div>
@@ -116,9 +116,9 @@ function CheckoutContent() {
         )}
 
         {processingPayment ? (
-          <div className="bg-[#071B36] border border-[#D4AF5A]/30 p-12 text-center space-y-6 gold-border-glow">
-            <div className="w-16 h-16 border-4 border-[#D4AF5A] border-t-transparent rounded-full animate-spin mx-auto" />
-            <h2 className="font-serif font-black text-2xl text-white uppercase tracking-wider">
+          <div className="bg-[#071B36] border border-[#D4AF5A]/30 p-8 sm:p-12 text-center space-y-6 gold-border-glow rounded-3xl">
+            <div className="w-14 sm:w-16 h-14 sm:h-16 border-4 border-[#D4AF5A] border-t-transparent rounded-full animate-spin mx-auto" />
+            <h2 className="font-serif font-black text-xl sm:text-2xl text-white uppercase tracking-wider">
               VERIFYING RAZORPAY PAYMENT...
             </h2>
             <p className="text-xs text-[#9CA3AF] max-w-md mx-auto">
@@ -126,7 +126,7 @@ function CheckoutContent() {
             </p>
           </div>
         ) : (
-          <form onSubmit={handleCheckoutSubmit} className="bg-[#071B36] border border-[#D4AF5A]/30 p-8 space-y-6 shadow-2xl">
+          <form onSubmit={handleCheckoutSubmit} className="bg-[#071B36] border border-[#D4AF5A]/30 p-5 sm:p-8 space-y-6 shadow-2xl rounded-3xl">
             
             <div className="border-b border-[#D4AF5A]/20 pb-4">
               <h2 className="font-serif font-bold text-lg text-white tracking-wider uppercase flex items-center gap-2">

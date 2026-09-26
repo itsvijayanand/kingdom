@@ -98,3 +98,18 @@ html.lenis, html.lenis body {
   background: #E6C878;
 }
 
+/* Html5Qrcode Responsive Scanner Aspect Ratio */
+#reader {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+}
+
+#reader video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 1rem;
+}
+
+

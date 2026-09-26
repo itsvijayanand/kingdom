@@ -130,7 +130,11 @@ export default function QRScanner({ gates }: QRScannerProps) {
         { facingMode: facingMode },
         {
           fps: 15,
-          qrbox: { width: 240, height: 240 },
+          qrbox: (viewfinderWidth, viewfinderHeight) => {
+            const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+            const size = Math.max(160, Math.floor(minEdge * 0.75));
+            return { width: size, height: size };
+          },
           aspectRatio: 1.0,
         },
         (decodedText) => {
@@ -266,7 +270,7 @@ export default function QRScanner({ gates }: QRScannerProps) {
       </div>
 
       {/* Main Scanner Container */}
-      <div className="bg-[#071B36]/60 border border-[#D4AF5A]/30 p-6 rounded-3xl shadow-2xl relative backdrop-blur-md">
+      <div className="bg-[#071B36]/60 border border-[#D4AF5A]/30 p-4 sm:p-6 rounded-3xl shadow-2xl relative backdrop-blur-md">
         
         {/* MODE 1: LIVE CAMERA */}
         {scanMode === 'camera' && (
@@ -284,8 +288,8 @@ export default function QRScanner({ gates }: QRScannerProps) {
               </button>
             </div>
 
-            {/* Video Viewport Container */}
-            <div className="relative rounded-2xl overflow-hidden border-2 border-[#D4AF5A]/40 bg-[#070A0F] min-h-[280px] flex items-center justify-center">
+            {/* Responsive Video Viewport Container with Phone Aspect Ratio */}
+            <div className="relative rounded-2xl overflow-hidden border-2 border-[#D4AF5A]/40 bg-[#070A0F] w-full max-w-sm mx-auto aspect-square flex items-center justify-center shadow-inner">
               <div id="reader" className="w-full h-full" />
 
               {/* Decorative Scanning Overlay Line */}
