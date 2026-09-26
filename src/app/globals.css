@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-kingdom: #070A0F;
+  --navy-deep: #071B36;
+  --navy-royal: #0B2345;
+  --navy-dark: #0D294C;
+  --gold-primary: #D4AF5A;
+  --gold-champagne: #E6C878;
+  --gold-light: #F2DFA0;
+  --soft-white: #E8E8E5;
+  --muted-text: #9CA3AF;
+  --gold-border: rgba(212, 175, 90, 0.25);
+  --gold-glow: rgba(212, 175, 90, 0.18);
+}
+
+body {
+  background-color: #070A0F;
+  color: #E8E8E5;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: #D4AF5A;
+  color: #070A0F;
+}
+
+/* Metallic Gold Text Gradients */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #F2DFA0 0%, #D4AF5A 50%, #A37F2C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #E6C878 0%, #D4AF5A 60%, #B8903A 100%);
+}
+
+.gold-border-glow {
+  border: 1px solid rgba(212, 175, 90, 0.35);
+  box-shadow: 0 0 20px rgba(212, 175, 90, 0.18);
+}
+
+.gold-border-glow-strong {
+  border: 1px solid rgba(212, 175, 90, 0.7);
+  box-shadow: 0 0 35px rgba(212, 175, 90, 0.35);
+}
+
+/* Ambient Navy & Gold Radial Lighting */
+.gold-ambient {
+  background: radial-gradient(circle at 50% 20%, rgba(212, 175, 90, 0.12) 0%, rgba(7, 10, 15, 0) 70%);
+}
+
+.navy-ambient {
+  background: radial-gradient(circle at 50% 80%, rgba(11, 35, 69, 0.4) 0%, rgba(7, 10, 15, 0) 80%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #070A0F;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4AF5A;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E6C878;
+}
