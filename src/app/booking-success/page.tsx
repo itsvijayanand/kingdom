@@ -35,7 +35,7 @@ function BookingSuccessContent() {
 
   return (
     <div className="pt-28 pb-20 bg-[#070A0F] min-h-screen font-sans text-zinc-300">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Banner */}
         <div className="text-center mb-10 space-y-4">

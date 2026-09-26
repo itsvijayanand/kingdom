@@ -159,7 +159,7 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto font-sans text-[#E8E8E5] px-2 sm:px-0">
+    <div className="w-full max-w-7xl mx-auto font-sans text-[#E8E8E5] px-2 sm:px-0">
       
       {/* Toast Notification */}
       {toastMsg && (
@@ -174,7 +174,7 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
         </div>
       )}
 
-      {/* LUXURY PHYSICAL CONCERT PASS (3-ZONE DESKTOP ~2.3:1 PROPORTION / STACKED MOBILE) */}
+      {/* LUXURY PHYSICAL CONCERT PASS (3-ZONE DESKTOP ~2.5:1 PROPORTION / STACKED MOBILE) */}
       <div
         ref={ticketRef}
         className="printable-ticket relative bg-[#071B36] border-2 border-[#D4AF5A] rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.85)] overflow-hidden h-auto gold-border-glow-strong"
@@ -191,9 +191,9 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 relative z-10 items-stretch">
           
           {/* ===================================================
-              ZONE 1: LEFT INFORMATION PANEL (~38% Desktop)
+              ZONE 1: LEFT INFORMATION PANEL (Col 4 on lg = ~33%)
              =================================================== */}
-          <div className="lg:col-span-5 p-5 sm:p-6 lg:p-6 bg-[#071B36] flex flex-col justify-between space-y-4 border-b lg:border-b-0 lg:border-r border-[#D4AF5A]/30">
+          <div className="lg:col-span-4 p-5 sm:p-6 lg:p-7 bg-[#071B36] flex flex-col justify-between space-y-4 border-b lg:border-b-0 lg:border-r border-[#D4AF5A]/30">
             
             {/* Header Brand */}
             <div className="flex items-center justify-between border-b border-[#D4AF5A]/25 pb-3">
@@ -278,9 +278,9 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
           </div>
 
           {/* ===================================================
-              ZONE 2: CENTER EVENT ARTWORK PANEL (~34% Desktop)
+              ZONE 2: CENTER EVENT ARTWORK PANEL (Col 4 on lg = ~33%)
              =================================================== */}
-          <div className="lg:col-span-4 relative min-h-[220px] lg:min-h-0 overflow-hidden bg-[#070A0F] flex items-center justify-center border-b lg:border-b-0 lg:border-r border-[#D4AF5A]/30">
+          <div className="lg:col-span-4 relative min-h-[240px] lg:min-h-0 overflow-hidden bg-[#070A0F] flex items-center justify-center border-b lg:border-b-0 lg:border-r border-[#D4AF5A]/30">
             
             {/* Background Concert Image */}
             <div 
@@ -297,7 +297,7 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
               <div className="w-10 h-10 rounded-full bg-[#070A0F]/85 border-2 border-[#D4AF5A] flex items-center justify-center mx-auto shadow-2xl backdrop-blur-md">
                 <Crown className="w-5 h-5 text-[#E6C878]" />
               </div>
-              <div className="inline-block px-3 py-1 bg-[#070A0F]/90 border border-[#D4AF5A]/60 rounded-full text-[9px] font-mono text-[#E6C878] font-bold tracking-[0.2em] uppercase shadow-lg backdrop-blur-sm">
+              <div className="inline-block px-3.5 py-1 bg-[#070A0F]/90 border border-[#D4AF5A]/60 rounded-full text-[9px] font-mono text-[#E6C878] font-bold tracking-[0.2em] uppercase shadow-lg backdrop-blur-sm">
                 LIVE CONCERT EXPERIENCE
               </div>
               <div className="text-[10px] text-white/90 font-serif font-bold uppercase tracking-widest drop-shadow-md">
@@ -310,55 +310,55 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
           </div>
 
           {/* ===================================================
-              ZONE 3: RIGHT QR & VERIFICATION PANEL (~28% Desktop)
+              ZONE 3: RIGHT QR & VERIFICATION PANEL (Col 4 on lg = ~33%)
              =================================================== */}
-          <div className="lg:col-span-3 p-5 sm:p-6 lg:p-6 bg-[#070A0F] flex flex-col items-center justify-between text-center space-y-4">
+          <div className="lg:col-span-4 p-5 sm:p-6 lg:p-7 bg-[#070A0F] flex flex-col items-center justify-between text-center space-y-4">
             
             {/* Ticket Type Badge */}
             <div className="w-full space-y-1.5">
-              <div className="inline-block px-3.5 py-1 bg-[#071B36] border border-[#D4AF5A] rounded-md text-xs font-serif text-[#E6C878] font-bold tracking-widest uppercase shadow-md">
+              <div className="inline-block px-4 py-1.5 bg-[#071B36] border border-[#D4AF5A] rounded-md text-xs font-serif text-[#E6C878] font-bold tracking-widest uppercase shadow-md">
                 {ticket.ticket_type_name || 'EARLY BIRD PASS'}
               </div>
               
-              <div className="text-[10px] font-mono text-white font-bold uppercase tracking-wider pt-0.5">
+              <div className="text-[11px] font-mono text-white font-bold uppercase tracking-wider pt-0.5">
                 ENTRY GATE {gateNumber}
               </div>
             </div>
 
             {/* Crisp Scannable White QR Code */}
-            <div className="p-2.5 bg-white rounded-2xl border-2 border-[#D4AF5A] shadow-xl inline-block max-w-[210px] mx-auto">
-              <canvas ref={canvasRef} className="w-full max-w-[170px] sm:max-w-[185px] h-auto block mx-auto aspect-square" />
+            <div className="p-3 bg-white rounded-2xl border-2 border-[#D4AF5A] shadow-xl inline-block max-w-[240px] mx-auto">
+              <canvas ref={canvasRef} className="w-full max-w-[190px] sm:max-w-[200px] h-auto block mx-auto aspect-square" />
             </div>
 
             {/* Dynamic Status Indicator */}
             <div className="font-mono text-xs space-y-1.5 w-full flex flex-col items-center">
               {ticket.status === 'VALID' && (
-                <span className="inline-flex items-center gap-1.5 text-[#22C55E] font-bold text-xs bg-emerald-950/90 px-3.5 py-1 border border-emerald-500/70 rounded-full">
+                <span className="inline-flex items-center gap-1.5 text-[#22C55E] font-bold text-xs bg-emerald-950/90 px-4 py-1.5 border border-emerald-500/70 rounded-full">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] shrink-0" /> ✓ VALID ENTRY PASS
                 </span>
               )}
               {ticket.status === 'USED' && (
-                <span className="inline-flex items-center gap-1.5 text-amber-400 font-bold text-xs bg-amber-950/90 px-3.5 py-1 border border-amber-500/70 rounded-full">
+                <span className="inline-flex items-center gap-1.5 text-amber-400 font-bold text-xs bg-amber-950/90 px-4 py-1.5 border border-amber-500/70 rounded-full">
                   <AlertCircle className="w-3.5 h-3.5 text-amber-400 shrink-0" /> ✕ TICKET ALREADY USED
                 </span>
               )}
               {ticket.status === 'CANCELLED' && (
-                <span className="inline-flex items-center gap-1.5 text-red-400 font-bold text-xs bg-red-950/90 px-3.5 py-1 border border-red-500/70 rounded-full">
+                <span className="inline-flex items-center gap-1.5 text-red-400 font-bold text-xs bg-red-950/90 px-4 py-1.5 border border-red-500/70 rounded-full">
                   <AlertCircle className="w-3.5 h-3.5 text-red-400 shrink-0" /> ✕ TICKET CANCELLED
                 </span>
               )}
               {ticket.status === 'REFUNDED' && (
-                <span className="inline-flex items-center gap-1.5 text-purple-400 font-bold text-xs bg-purple-950/90 px-3.5 py-1 border border-purple-500/70 rounded-full">
+                <span className="inline-flex items-center gap-1.5 text-purple-400 font-bold text-xs bg-purple-950/90 px-4 py-1.5 border border-purple-500/70 rounded-full">
                   <AlertCircle className="w-3.5 h-3.5 text-purple-400 shrink-0" /> ✕ TICKET REFUNDED
                 </span>
               )}
               {ticket.status !== 'VALID' && ticket.status !== 'USED' && ticket.status !== 'CANCELLED' && ticket.status !== 'REFUNDED' && (
-                <span className="inline-flex items-center gap-1.5 text-red-400 font-bold text-xs bg-red-950/90 px-3.5 py-1 border border-red-500/70 rounded-full">
+                <span className="inline-flex items-center gap-1.5 text-red-400 font-bold text-xs bg-red-950/90 px-4 py-1.5 border border-red-500/70 rounded-full">
                   <AlertCircle className="w-3.5 h-3.5 text-red-400 shrink-0" /> ✕ TICKET BLOCKED ({ticket.status})
                 </span>
               )}
 
-              <p className="text-[10px] text-[#9CA3AF] pt-0.5 max-w-[180px] leading-tight font-mono">
+              <p className="text-[10px] text-[#9CA3AF] pt-0.5 max-w-[200px] leading-tight font-mono">
                 Present QR code at gate scanner.
               </p>
             </div>
@@ -368,7 +368,7 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
               <span className="text-[9px] text-[#9CA3AF] uppercase tracking-widest block font-bold">
                 TICKET NO.
               </span>
-              <div className="font-bold text-[#E6C878] text-xs sm:text-sm tracking-wider">
+              <div className="font-bold text-[#E6C878] text-sm tracking-wider">
                 {ticket.ticket_number}
               </div>
             </div>
