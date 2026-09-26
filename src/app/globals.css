@@ -121,4 +121,35 @@ html.lenis, html.lenis body {
   border-radius: 1rem;
 }
 
+/* Print Optimization Media Query for Concert Pass */
+@media print {
+  header, footer, nav, button, .print\:hidden, .fixed {
+    display: none !important;
+  }
+
+  body, html {
+    background-color: #070A0F !important;
+    color: #E8E8E5 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  main {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    min-h-screen: auto !important;
+  }
+
+  .printable-ticket {
+    margin: 0 auto !important;
+    max-width: 680px !important;
+    page-break-inside: avoid !important;
+    border: 2px solid #D4AF5A !important;
+    box-shadow: none !important;
+  }
+}
+
+
 
