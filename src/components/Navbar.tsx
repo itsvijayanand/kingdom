@@ -18,7 +18,7 @@ export default function Navbar() {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-[#070A0F]/95 backdrop-blur-md border-b border-[#D4AF5A]/20 py-2.5' : 'bg-gradient-to-b from-[#070A0F]/95 via-[#070A0F]/70 to-transparent py-4'
+      scrolled ? 'bg-[#070A0F]/50 backdrop-blur-lg border-b border-[#D4AF5A]/25 py-2.5' : 'bg-transparent py-4 border-b border-transparent'
     }`}>
       <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-4">
         
