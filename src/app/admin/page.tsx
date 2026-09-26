@@ -11,10 +11,21 @@ import {
   RefreshCw, 
   CheckCircle2, 
   PauseCircle,
-  PlayCircle
+  PlayCircle,
+  Lock,
+  LogOut,
+  Key,
+  UserCheck
 } from 'lucide-react';
+import { Button } from '@/components/Button';
 
 export default function AdminDashboardPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginMfa, setLoginMfa] = useState('');
+  const [loginError, setLoginError] = useState<string | null>(null);
+
   const [activeTab, setActiveTab] = useState<'overview' | 'tickets' | 'gates' | 'emergency' | 'audit'>('overview');
   const [data, setData] = useState<any>(null);
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
@@ -23,6 +34,41 @@ export default function AdminDashboardPage() {
 
   const [editPrice, setEditPrice] = useState('2499');
   const [editCapacity, setEditCapacity] = useState('2500');
+
+  useEffect(() => {
+    const sessionAuth = sessionStorage.getItem('kingdom_admin_auth');
+    if (sessionAuth === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (
+      (loginEmail.toLowerCase() === 'admin@kingdom.com' || loginEmail.toLowerCase() === 'superadmin@ahuja.com') &&
+      (loginPassword === 'admin123' || loginPassword === 'kingdom2026' || loginPassword === 'admin')
+    ) {
+      sessionStorage.setItem('kingdom_admin_auth', 'true');
+      setIsAuthenticated(true);
+      setLoginError(null);
+    } else {
+      setLoginError('Invalid credentials. Use demo credentials below.');
+    }
+  };
+
+  const handleDemoLogin = () => {
+    setLoginEmail('superadmin@ahuja.com');
+    setLoginPassword('kingdom2026');
+    setLoginMfa('123456');
+    sessionStorage.setItem('kingdom_admin_auth', 'true');
+    setIsAuthenticated(true);
+    setLoginError(null);
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('kingdom_admin_auth');
+    setIsAuthenticated(false);
+  };
 
   const fetchAdminData = async () => {
     try {
@@ -45,8 +91,10 @@ export default function AdminDashboardPage() {
   };
 
   useEffect(() => {
-    fetchAdminData();
-  }, []);
+    if (isAuthenticated) {
+      fetchAdminData();
+    }
+  }, [isAuthenticated]);
 
   const handleToggleSalesPause = async () => {
     if (!confirm('EMERGENCY ACTION: Are you sure you want to toggle ticket sales pause?')) return;
@@ -55,7 +103,7 @@ export default function AdminDashboardPage() {
       const res = await fetch('/api/v1/admin/emergency', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'TOGGLE_SALES_PAUSE', actorEmail: 'superadmin@ahuja.com', mfaToken: '123456' }),
+        body: JSON.stringify({ action: 'TOGGLE_SALES_PAUSE', actorEmail: loginEmail || 'superadmin@ahuja.com', mfaToken: '123456' }),
       });
       const json = await res.json();
       if (json.success) {
@@ -78,7 +126,7 @@ export default function AdminDashboardPage() {
           price: Number(editPrice),
           capacity: Number(editCapacity),
           isEnabled: true,
-          actorEmail: 'superadmin@ahuja.com'
+          actorEmail: loginEmail || 'superadmin@ahuja.com'
         }),
       });
       const json = await res.json();
@@ -90,6 +138,99 @@ export default function AdminDashboardPage() {
       alert('Config update failed');
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="pt-28 pb-20 bg-[#070A0F] min-h-screen font-sans text-zinc-300 flex items-center justify-center px-4">
+        <div className="w-full max-w-md bg-[#071B36] border-2 border-[#D4AF5A]/40 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-6 gold-border-glow">
+          <div className="text-center space-y-3">
+            <KingdomLogo size="sm" showLink={false} />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#070A0F] border border-[#D4AF5A]/30 text-[#E6C878] text-[10px] font-mono uppercase rounded-full">
+              <Lock className="w-3.5 h-3.5 text-[#D4AF5A]" />
+              AUTHENTICATION GATE
+            </div>
+            <h1 className="font-serif font-black text-2xl text-white tracking-wider uppercase">
+              ADMIN CONTROL CENTER
+            </h1>
+            <p className="text-xs text-[#9CA3AF] font-mono">
+              Restricted management console for Kingdom Executives.
+            </p>
+          </div>
+
+          {loginError && (
+            <div className="p-3 bg-red-950/80 border border-red-500 text-red-400 text-xs font-mono text-center rounded-xl">
+              {loginError}
+            </div>
+          )}
+
+          <form onSubmit={handleLoginSubmit} className="space-y-4 font-mono text-xs">
+            <div>
+              <label className="text-[#9CA3AF] block mb-1 uppercase">ADMIN EMAIL:</label>
+              <input
+                type="email"
+                required
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                placeholder="superadmin@ahuja.com"
+                className="w-full bg-[#070A0F] border border-[#D4AF5A]/30 text-white px-4 py-3 rounded-xl focus:border-[#D4AF5A] focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="text-[#9CA3AF] block mb-1 uppercase">PASSWORD:</label>
+              <input
+                type="password"
+                required
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                placeholder="••••••••••••"
+                className="w-full bg-[#070A0F] border border-[#D4AF5A]/30 text-white px-4 py-3 rounded-xl focus:border-[#D4AF5A] focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="text-[#9CA3AF] block mb-1 uppercase">MFA SECURITY TOKEN (OPTIONAL):</label>
+              <input
+                type="text"
+                value={loginMfa}
+                onChange={(e) => setLoginMfa(e.target.value)}
+                placeholder="123456"
+                className="w-full bg-[#070A0F] border border-[#D4AF5A]/30 text-white px-4 py-3 rounded-xl focus:border-[#D4AF5A] focus:outline-none"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              fullWidth
+              icon={<UserCheck className="w-4 h-4 text-[#070A0F]" />}
+            >
+              AUTHENTICATE ADMIN
+            </Button>
+          </form>
+
+          {/* Quick Demo Login Preset Helper */}
+          <div className="pt-4 border-t border-[#D4AF5A]/20 text-center font-mono text-xs space-y-2">
+            <div className="text-[10px] text-[#9CA3AF]">DEMO LOGIN CREDENTIALS:</div>
+            <div className="p-3 bg-[#070A0F] border border-[#D4AF5A]/25 rounded-xl text-left text-[11px] space-y-1">
+              <div><span className="text-[#9CA3AF]">Email:</span> <span className="text-[#E6C878] font-bold">superadmin@ahuja.com</span></div>
+              <div><span className="text-[#9CA3AF]">Password:</span> <span className="text-[#E6C878] font-bold">kingdom2026</span></div>
+              <div><span className="text-[#9CA3AF]">MFA Pin:</span> <span className="text-emerald-400 font-bold">123456</span></div>
+            </div>
+
+            <button
+              onClick={handleDemoLogin}
+              className="w-full py-2 bg-[#070A0F] border border-emerald-500/50 text-emerald-400 font-bold hover:bg-emerald-950/40 rounded-xl transition-colors"
+            >
+              ⚡ AUTO-FILL & LOGIN IMMEDIATELY
+            </button>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
 
   const metrics = data?.metrics;
 
@@ -103,14 +244,14 @@ export default function AdminDashboardPage() {
             <KingdomLogo size="sm" showLink={false} />
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#071B36] border border-[#D4AF5A]/30 text-[#D4AF5A] text-xs font-mono uppercase">
               <ShieldAlert className="w-3.5 h-3.5 text-[#D4AF5A]" />
-              KINGDOM SUPER ADMIN OPERATIONS HUB (MFA ENFORCED)
+              KINGDOM SUPER ADMIN OPERATIONS HUB ({loginEmail || 'superadmin@ahuja.com'})
             </div>
             <p className="text-xs text-[#9CA3AF] font-mono">
               URL: admin.ahuja-concert.com • Live Gate Throughput & Audit Trail
             </p>
           </div>
 
-          <div className="flex items-center gap-3 font-mono text-xs">
+          <div className="flex items-center gap-3 font-mono text-xs flex-wrap">
             <button
               onClick={fetchAdminData}
               className="px-4 py-2 bg-[#071B36] border border-[#D4AF5A]/30 text-white font-bold uppercase hover:border-[#D4AF5A] flex items-center gap-1.5 rounded-full transition-colors"
@@ -126,6 +267,13 @@ export default function AdminDashboardPage() {
             >
               {metrics?.salesPaused ? <PlayCircle className="w-4 h-4" /> : <PauseCircle className="w-4 h-4" />}
               {metrics?.salesPaused ? 'RESUME SALES' : 'EMERGENCY PAUSE SALES'}
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-950/80 border border-red-500/50 text-red-300 font-bold uppercase hover:bg-red-900 flex items-center gap-1.5 rounded-full transition-colors"
+            >
+              <LogOut className="w-3.5 h-3.5" /> LOGOUT
             </button>
           </div>
         </div>
