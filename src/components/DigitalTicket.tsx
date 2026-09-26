@@ -28,11 +28,17 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
   const [sendingEmail, setSendingEmail] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
+  // Dynamic gate formatting
+  const rawGate = (ticket as any).gate || ticket.used_gate_name || '04';
+  const gateNumOnly = String(rawGate).replace(/ENTRY|GATE/gi, '').trim() || '04';
+  const gateNumber = gateNumOnly.padStart(2, '0');
+  const gateDisplay = `GATE ${gateNumber}`;
+
   useEffect(() => {
     if (canvasRef.current && ticket.secure_token) {
       QRCode.toCanvas(canvasRef.current, ticket.secure_token, {
-        width: 170,
-        margin: 1,
+        width: 240,
+        margin: 2,
         color: {
           dark: '#000000',
           light: '#FFFFFF'
@@ -47,7 +53,7 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
     window.print();
   };
 
-  // 1. Save Digital Pass directly as PDF file with high-density canvas rasterization
+  // Save Digital Pass directly as PDF tightly fitting the pass dimensions
   const handleDownloadPdf = async () => {
     setIsGeneratingPdf(true);
     setToastMsg(null);
@@ -57,21 +63,23 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
       if (!element) return;
 
       const opt = {
-        margin: [10, 10, 10, 10],
+        margin: [5, 5, 5, 5],
         filename: `Kingdom-VIP-Pass-${ticket.ticket_number}.pdf`,
-        image: { type: 'jpeg', quality: 1.0 },
+        image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-          scale: 3, 
+          scale: 2.5, 
           useCORS: true, 
-          backgroundColor: '#070A0F',
+          backgroundColor: '#071B36',
           letterRendering: true,
-          windowWidth: 1200,
+          scrollX: 0,
+          scrollY: 0,
         },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        jsPDF: { unit: 'mm', format: [280, 130], orientation: 'landscape' },
+        pagebreak: { mode: ['avoid-all'] }
       };
 
       await html2pdf().set(opt).from(element).save();
-      setToastMsg(`✓ Kingdom Pass ${ticket.ticket_number} saved in PDF format!`);
+      setToastMsg(`✓ Kingdom Pass ${ticket.ticket_number} saved as PDF!`);
     } catch (err) {
       console.error('PDF export error:', err);
       window.print();
@@ -80,7 +88,7 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
     }
   };
 
-  // 2. Dispatch Ticket Pass over Email API
+  // Dispatch Ticket Pass over Email API
   const handleSendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!emailInput.trim()) return;
@@ -111,7 +119,7 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto font-sans text-[#E8E8E5] px-2 sm:px-0">
+    <div className="w-full max-w-5xl mx-auto font-sans text-[#E8E8E5] px-2 sm:px-0">
       
       {/* Toast Notification */}
       {toastMsg && (
@@ -129,118 +137,157 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
       {/* ROYAL PHYSICAL CONCERT TICKET STUB (PRINT & PDF TARGET) */}
       <div
         ref={ticketRef}
-        className="printable-ticket relative bg-[#071B36] border-2 border-[#D4AF5A] rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden gold-border-glow-strong"
+        className="printable-ticket relative bg-[#071B36] border-2 border-[#D4AF5A] rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden gold-border-glow-strong h-auto"
       >
         
-        {/* Left & Right Authentic Ticket Stub Notches */}
-        <div className="absolute top-1/2 -left-4 -translate-y-1/2 w-8 h-8 rounded-full bg-[#070A0F] border-r-2 border-[#D4AF5A] z-20 hidden sm:block" />
-        <div className="absolute top-1/2 -right-4 -translate-y-1/2 w-8 h-8 rounded-full bg-[#070A0F] border-l-2 border-[#D4AF5A] z-20 hidden sm:block" />
+        {/* Left & Right Ticket Stub Notches (Behind content z-0) */}
+        <div className="absolute top-1/2 -left-4 -translate-y-1/2 w-8 h-8 rounded-full bg-[#070A0F] border-r-2 border-[#D4AF5A] z-0 hidden md:block" />
+        <div className="absolute top-1/2 -right-4 -translate-y-1/2 w-8 h-8 rounded-full bg-[#070A0F] border-l-2 border-[#D4AF5A] z-0 hidden md:block" />
 
         {/* Top Gold Foil Accent Bar */}
         <div className="h-2 bg-gradient-to-r from-[#D4AF5A] via-[#E6C878] to-[#D4AF5A]" />
 
-        {/* Main Ticket Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 relative z-10">
+        {/* Main Ticket Layout Grid (Desktop ~66% / ~34%, Mobile Stacked) */}
+        <div className="grid grid-cols-1 md:grid-cols-12 relative z-10">
           
-          {/* Main Pass Section (Col 8) */}
-          <div className="lg:col-span-8 p-6 sm:p-8 space-y-6 lg:border-r-2 lg:border-dashed lg:border-[#D4AF5A]/35">
+          {/* Main Left Pass Section (Col 8 on Desktop = ~66%) */}
+          <div className="md:col-span-8 p-6 sm:p-8 space-y-6 md:border-r-2 md:border-dashed md:border-[#D4AF5A]/35 flex flex-col justify-between">
             
             {/* Header Brand & Category Badge */}
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#D4AF5A]/25 pb-4">
               <KingdomLogo size="sm" showLink={false} />
               
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#070A0F] border border-[#D4AF5A]/40 rounded-full">
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#070A0F] border border-[#D4AF5A]/40 rounded-full shrink-0">
                 <Crown className="w-3.5 h-3.5 text-[#D4AF5A]" />
-                <span className="font-serif text-[10px] text-[#E6C878] tracking-[0.2em] uppercase font-bold">
-                  {ticket.ticket_type_name || 'ROYAL VIP ADMISSION'}
+                <span className="font-serif text-[10px] sm:text-xs text-[#E6C878] tracking-[0.2em] uppercase font-bold">
+                  {ticket.ticket_type_name || 'EARLY BIRD PASS'}
                 </span>
               </div>
             </div>
 
-            {/* Concert Headline & Tour Info (PDF-safe text colors without background-clip artifacts) */}
+            {/* Concert Headline & Tour Info */}
             <div>
-              <span className="text-[10px] tracking-[0.3em] text-[#D4AF5A] font-mono font-bold uppercase block">// HEADLINE WORLD TOUR 2026</span>
-              <h2 className="font-serif font-black text-3xl sm:text-4xl text-[#E6C878] uppercase tracking-wider mt-1 leading-tight drop-shadow-md">
-                {event.artist_name}
+              <span className="text-[10px] tracking-[0.3em] text-[#D4AF5A] font-mono font-bold uppercase block mb-1">
+                // HEADLINE WORLD TOUR 2026
+              </span>
+              <h2 className="font-serif font-black text-2xl sm:text-3xl lg:text-4xl text-[#E6C878] uppercase tracking-wider leading-tight drop-shadow-md mb-2 break-words">
+                {event.artist_name || 'VEX & THE SYNTH SYNDICATE'}
               </h2>
-              <p className="text-xs text-[#F2DFA0] font-mono font-bold tracking-widest uppercase mt-1">
-                {event.title}
+              <p className="text-xs sm:text-sm text-[#F2DFA0] font-mono font-bold tracking-widest uppercase break-words leading-relaxed">
+                {event.title || 'NOCTURNE VELOCITY: LIVE WORLD TOUR'}
               </p>
             </div>
 
-            {/* Event Metadata Grid with Extra Padding & Line Height to Prevent PDF Text Clipping */}
-            <div className="grid grid-cols-2 gap-4 text-xs font-mono bg-[#070A0F]/80 p-5 border border-[#D4AF5A]/25 rounded-2xl">
-              <div className="pb-1">
-                <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase">
-                  <User className="w-3 h-3 text-[#D4AF5A]" /> PASS HOLDER
-                </span>
-                <div className="font-bold text-white text-sm pt-1 leading-relaxed truncate">{ticket.customer_name}</div>
+            {/* Customer Information Card (2-Column Structure) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-xs font-mono bg-[#070A0F]/80 p-5 sm:p-6 border border-[#D4AF5A]/30 rounded-2xl">
+              
+              {/* Left Column */}
+              <div className="space-y-4">
+                <div>
+                  <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase tracking-widest font-bold">
+                    <User className="w-3 h-3 text-[#D4AF5A]" /> PASS HOLDER
+                  </span>
+                  <div className="font-bold text-white text-sm sm:text-base pt-1 leading-snug break-words">
+                    {ticket.customer_name || 'Vijayanand'}
+                  </div>
+                </div>
+
+                <div>
+                  <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase tracking-widest font-bold">
+                    <Calendar className="w-3 h-3 text-[#D4AF5A]" /> DATE & TIME
+                  </span>
+                  <div className="font-bold text-zinc-200 text-xs sm:text-sm pt-1 leading-snug">
+                    {event.event_date || 'OCT 31, 2026 • 8:00 PM'}
+                  </div>
+                </div>
               </div>
 
-              <div className="pb-1">
-                <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase">
-                  <Ticket className="w-3 h-3 text-[#D4AF5A]" /> TICKET NO.
-                </span>
-                <div className="font-bold text-[#E6C878] text-sm pt-1 leading-relaxed truncate">{ticket.ticket_number}</div>
+              {/* Right Column */}
+              <div className="space-y-4">
+                <div>
+                  <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase tracking-widest font-bold">
+                    <Ticket className="w-3 h-3 text-[#D4AF5A]" /> TICKET NO.
+                  </span>
+                  <div className="font-bold text-[#E6C878] text-sm sm:text-base pt-1 leading-snug break-all font-mono">
+                    {ticket.ticket_number}
+                  </div>
+                </div>
+
+                <div>
+                  <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase tracking-widest font-bold">
+                    <MapPin className="w-3 h-3 text-[#D4AF5A]" /> ARENA & GATE
+                  </span>
+                  <div className="font-bold text-zinc-200 text-xs sm:text-sm pt-1 leading-snug break-words whitespace-normal">
+                    {event.venue_name || 'CYBERDOME ARENA'}
+                    <div className="text-[#D4AF5A] text-xs font-semibold mt-0.5">
+                      {gateDisplay}
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
-              <div className="pb-1">
-                <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase">
-                  <Calendar className="w-3 h-3 text-[#D4AF5A]" /> DATE & TIME
-                </span>
-                <div className="font-bold text-zinc-200 text-xs pt-1 leading-relaxed">OCT 31, 2026 • 8:00 PM</div>
-              </div>
-
-              <div className="pb-1">
-                <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase">
-                  <MapPin className="w-3 h-3 text-[#D4AF5A]" /> ARENA & GATE
-                </span>
-                <div className="font-bold text-zinc-200 text-xs pt-1 leading-relaxed truncate">{event.venue_name}</div>
-              </div>
             </div>
 
-            {/* Security HMAC Footer */}
-            <div className="flex items-center justify-between text-[10px] text-[#9CA3AF] pt-2 border-t border-[#D4AF5A]/15 font-mono">
-              <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" /> HMAC SIGNED PASS
+            {/* Footer Security Indicator (Clean Verified Badge, No exposed token) */}
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs pt-3 border-t border-[#D4AF5A]/20 font-mono">
+              <span className="flex items-center gap-1.5 text-emerald-400 font-bold tracking-wide">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" /> ✓ VERIFIED DIGITAL PASS
               </span>
-              <span className="truncate">TOKEN: {ticket.secure_token.substring(0, 16)}...</span>
+              <span className="text-[10px] text-[#9CA3AF]/70 font-mono uppercase tracking-widest">
+                KINGDOM EVENTS & ENTERTAINMENT
+              </span>
             </div>
 
           </div>
 
-          {/* Right Validation QR Stub Section (Col 4) */}
-          <div className="lg:col-span-4 p-6 bg-[#070A0F] flex flex-col items-center justify-between text-center space-y-4">
+          {/* Right Validation QR Stub Section (Col 4 on Desktop = ~34%) */}
+          <div className="md:col-span-4 p-6 sm:p-8 bg-[#070A0F] flex flex-col items-center justify-between text-center space-y-5">
             
-            <div className="space-y-1">
-              <span className="text-[9px] text-[#D4AF5A] font-mono tracking-[0.2em] uppercase font-bold block">GATE SCAN TOKEN</span>
-              <div className="text-white font-serif text-sm font-bold uppercase">ENTRY PORTAL 4</div>
+            {/* Gate Scan Header */}
+            <div className="space-y-1 text-center">
+              <span className="text-[10px] text-[#D4AF5A] font-mono tracking-[0.25em] uppercase font-bold block">
+                GATE SCAN
+              </span>
+              <div className="text-white font-serif text-base sm:text-lg font-bold uppercase tracking-wider">
+                ENTRY GATE {gateNumber}
+              </div>
             </div>
 
-            {/* Crisp High Contrast White QR Canvas Container */}
-            <div className="p-2.5 bg-white rounded-xl shadow-xl border-2 border-[#D4AF5A]">
-              <canvas ref={canvasRef} className="block mx-auto max-w-full" />
+            {/* Crisp High-Contrast White QR Code Container */}
+            <div className="p-3 bg-white rounded-2xl border-2 border-[#D4AF5A] shadow-xl inline-block max-w-[260px] mx-auto">
+              <canvas ref={canvasRef} className="w-full max-w-[240px] h-auto block mx-auto aspect-square" />
             </div>
 
-            {/* Status Indicator Badge */}
-            <div className="font-mono text-xs space-y-1">
+            {/* Dynamic Status Indicator Badge */}
+            <div className="font-mono text-xs space-y-2 w-full flex flex-col items-center">
               {ticket.status === 'VALID' && (
-                <span className="inline-flex items-center gap-1 text-emerald-400 font-bold text-xs bg-emerald-950/80 px-3 py-1 border border-emerald-500 rounded-full">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> VALID ENTRY PASS
+                <span className="inline-flex items-center gap-1.5 text-emerald-400 font-bold text-xs bg-emerald-950/80 px-4 py-1.5 border border-emerald-500/60 rounded-full">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> VALID ENTRY PASS
                 </span>
               )}
               {ticket.status === 'USED' && (
-                <span className="inline-flex items-center gap-1 text-[#FF4A00] font-bold text-xs bg-amber-950/80 px-3 py-1 border border-amber-500 rounded-full">
-                  <AlertCircle className="w-3.5 h-3.5" /> ALREADY SCANNED
+                <span className="inline-flex items-center gap-1.5 text-amber-400 font-bold text-xs bg-amber-950/80 px-4 py-1.5 border border-amber-500/60 rounded-full">
+                  <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" /> TICKET ALREADY USED
                 </span>
               )}
-              {ticket.status !== 'VALID' && ticket.status !== 'USED' && (
-                <span className="inline-flex items-center gap-1 text-red-500 font-bold text-xs bg-red-950/80 px-3 py-1 border border-red-500 rounded-full">
-                  <AlertCircle className="w-3.5 h-3.5" /> STATUS: {ticket.status}
+              {ticket.status === 'CANCELLED' && (
+                <span className="inline-flex items-center gap-1.5 text-red-400 font-bold text-xs bg-red-950/80 px-4 py-1.5 border border-red-500/60 rounded-full">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> TICKET CANCELLED
+                </span>
+              )}
+              {ticket.status === 'REFUNDED' && (
+                <span className="inline-flex items-center gap-1.5 text-purple-400 font-bold text-xs bg-purple-950/80 px-4 py-1.5 border border-purple-500/60 rounded-full">
+                  <AlertCircle className="w-4 h-4 text-purple-400 shrink-0" /> TICKET REFUNDED
+                </span>
+              )}
+              {ticket.status !== 'VALID' && ticket.status !== 'USED' && ticket.status !== 'CANCELLED' && ticket.status !== 'REFUNDED' && (
+                <span className="inline-flex items-center gap-1.5 text-red-400 font-bold text-xs bg-red-950/80 px-4 py-1.5 border border-red-500/60 rounded-full">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> TICKET BLOCKED ({ticket.status})
                 </span>
               )}
 
-              <p className="text-[10px] text-[#9CA3AF] pt-1">
+              <p className="text-[10px] text-[#9CA3AF] pt-1 max-w-[200px] leading-tight">
                 Present QR code to Kingdom Staff Bouncer Scanner.
               </p>
             </div>
@@ -353,3 +400,4 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
     </div>
   );
 }
+

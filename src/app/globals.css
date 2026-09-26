@@ -128,26 +128,28 @@ html.lenis, html.lenis body {
   }
 
   body, html {
-    background-color: #070A0F !important;
+    background-color: #071B36 !important;
     color: #E8E8E5 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     margin: 0 !important;
     padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
   }
 
   main {
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
-    min-h-screen: auto !important;
+    padding: 1rem !important;
+    min-height: auto !important;
   }
 
   .printable-ticket {
     margin: 0 auto !important;
-    max-width: 680px !important;
+    max-width: 100% !important;
     page-break-inside: avoid !important;
     border: 2px solid #D4AF5A !important;
     box-shadow: none !important;
+    background-color: #071B36 !important;
   }
 }
 
