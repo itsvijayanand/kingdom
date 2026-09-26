@@ -192,7 +192,7 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
         <div className="h-2 bg-gradient-to-r from-[#D4AF5A] via-[#E6C878] to-[#D4AF5A]" />
 
         {/* Main 3-Zone Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 relative z-10 items-stretch">
+        <div className="printable-main-grid grid grid-cols-1 lg:grid-cols-12 relative z-10 items-stretch">
           
           {/* ===================================================
               ZONE 1: LEFT INFORMATION PANEL (Col 4 on lg = ~33%)
