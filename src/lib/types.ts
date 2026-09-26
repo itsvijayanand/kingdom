@@ -81,6 +81,8 @@ export interface TicketItem {
   used_by_staff_id?: string;
   used_by_staff_name?: string;
   created_at: string;
+  quantity?: number;
+  admit_count?: number;
 }
 
 export interface PaymentRecord {

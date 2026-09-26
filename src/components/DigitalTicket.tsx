@@ -5,7 +5,7 @@ import QRCode from 'qrcode';
 import KingdomLogo from '@/components/KingdomLogo';
 import { Button } from '@/components/Button';
 import { TicketItem } from '@/lib/types';
-import { Download, Printer, ShieldCheck, Calendar, MapPin, Ticket, User, CheckCircle2, AlertCircle, Crown, Mail, Send, X, FileText, Clock, Sparkles } from 'lucide-react';
+import { Download, Printer, ShieldCheck, Calendar, MapPin, Ticket, User, CheckCircle2, AlertCircle, Crown, Mail, Send, X, FileText, Clock, Sparkles, Users } from 'lucide-react';
 
 interface DigitalTicketProps {
   ticket: TicketItem;
@@ -43,6 +43,10 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
   const rawGate = (ticket as any).gate || ticket.used_gate_name || '04';
   const gateNumOnly = String(rawGate).replace(/ENTRY|GATE/gi, '').trim() || '04';
   const gateNumber = gateNumOnly.padStart(2, '0');
+
+  // Dynamic Admit Quantity / Number of People
+  const admitCount = ticket.quantity || ticket.admit_count || (ticket as any).guests || 1;
+  const admitText = admitCount === 1 ? '1 PERSON' : `${admitCount} PERSONS`;
 
   // Format ISO Date String cleanly (e.g. 2026-10-31T20:00:00.000Z -> OCT 31, 2026)
   const formatDate = (dateStr?: string) => {
@@ -198,8 +202,8 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
             {/* Header Brand */}
             <div className="flex items-center justify-between border-b border-[#D4AF5A]/25 pb-3">
               <KingdomLogo size="sm" showLink={false} />
-              <div className="flex items-center gap-1 text-[10px] font-mono text-[#D4AF5A] uppercase tracking-widest">
-                <Sparkles className="w-3 h-3 text-[#E6C878]" /> VIP ADMIT ONE
+              <div className="flex items-center gap-1 text-[10px] font-mono text-[#D4AF5A] uppercase tracking-widest font-bold">
+                <Sparkles className="w-3 h-3 text-[#E6C878]" /> ADMIT {admitCount === 1 ? 'ONE' : `${admitCount} PERSONS`}
               </div>
             </div>
 
@@ -219,7 +223,7 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
             {/* Structured Compact Pass Information Box */}
             <div className="bg-[#070A0F]/80 p-4 border border-[#D4AF5A]/30 rounded-2xl space-y-3 text-xs font-mono">
               
-              {/* Row 1: Pass Holder & Ticket Number */}
+              {/* Row 1: Pass Holder & Admit Count (Number of People) */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase tracking-widest font-bold">
@@ -232,16 +236,25 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
 
                 <div>
                   <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase tracking-widest font-bold">
+                    <Users className="w-3 h-3 text-[#D4AF5A]" /> ADMIT (PEOPLE)
+                  </span>
+                  <div className="font-bold text-[#E6C878] text-xs sm:text-sm pt-0.5 leading-snug font-mono">
+                    {admitText}
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 2: Ticket Number & Date/Time */}
+              <div className="grid grid-cols-2 gap-3 pt-2.5 border-t border-[#D4AF5A]/15">
+                <div>
+                  <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase tracking-widest font-bold">
                     <Ticket className="w-3 h-3 text-[#D4AF5A]" /> TICKET NO.
                   </span>
                   <div className="font-bold text-[#E6C878] text-xs sm:text-sm pt-0.5 leading-snug break-all font-mono">
                     {ticket.ticket_number}
                   </div>
                 </div>
-              </div>
 
-              {/* Row 2: Date/Time & Venue/Gate */}
-              <div className="grid grid-cols-2 gap-3 pt-2.5 border-t border-[#D4AF5A]/15">
                 <div>
                   <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase tracking-widest font-bold">
                     <Calendar className="w-3 h-3 text-[#D4AF5A]" /> DATE & TIME
@@ -251,15 +264,16 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
                     <div className="text-[11px] text-[#C8CBD0] font-semibold">{formatTime(event.event_date, event.doors_open)}</div>
                   </div>
                 </div>
+              </div>
 
-                <div>
-                  <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase tracking-widest font-bold">
-                    <MapPin className="w-3 h-3 text-[#D4AF5A]" /> VENUE & GATE
-                  </span>
-                  <div className="font-bold text-[#E8E8E5] text-xs pt-0.5 leading-snug break-words whitespace-normal">
-                    {event.venue_name || 'CYBERDOME ARENA & EXHIBITION GROUNDS'}
-                    <div className="text-[#D4AF5A] text-[11px] font-bold font-mono mt-0.5">GATE {gateNumber}</div>
-                  </div>
+              {/* Row 3: Venue & Gate */}
+              <div className="pt-2.5 border-t border-[#D4AF5A]/15">
+                <span className="text-[9px] text-[#9CA3AF] flex items-center gap-1 uppercase tracking-widest font-bold">
+                  <MapPin className="w-3 h-3 text-[#D4AF5A]" /> VENUE & GATE
+                </span>
+                <div className="font-bold text-[#E8E8E5] text-xs pt-0.5 leading-snug break-words whitespace-normal">
+                  {event.venue_name || 'CYBERDOME ARENA & EXHIBITION GROUNDS'}
+                  <div className="text-[#D4AF5A] text-[11px] font-bold font-mono mt-0.5">GATE {gateNumber}</div>
                 </div>
               </div>
 
@@ -314,14 +328,14 @@ export default function DigitalTicket({ ticket, event }: DigitalTicketProps) {
              =================================================== */}
           <div className="lg:col-span-4 p-5 sm:p-6 lg:p-7 bg-[#070A0F] flex flex-col items-center justify-between text-center space-y-4">
             
-            {/* Ticket Type Badge */}
+            {/* Ticket Type Badge & Admit Count */}
             <div className="w-full space-y-1.5">
               <div className="inline-block px-4 py-1.5 bg-[#071B36] border border-[#D4AF5A] rounded-md text-xs font-serif text-[#E6C878] font-bold tracking-widest uppercase shadow-md">
                 {ticket.ticket_type_name || 'EARLY BIRD PASS'}
               </div>
               
               <div className="text-[11px] font-mono text-white font-bold uppercase tracking-wider pt-0.5">
-                ENTRY GATE {gateNumber}
+                ENTRY GATE {gateNumber} • {admitText}
               </div>
             </div>
 
