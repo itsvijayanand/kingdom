@@ -32,11 +32,11 @@ export default function HeroSection() {
     <section className="relative min-h-[92vh] bg-[#070A0F] overflow-hidden pt-28 pb-16 flex flex-col justify-center">
       
       {/* Background Concert Photography with Dark Navy Overlay & Gold Ambient Glow */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
+      <div className="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1920&auto=format&fit=crop"
           alt="Kingdom Live Concert"
-          className="w-full h-full object-cover object-center opacity-25 filter contrast-125 scale-105"
+          className="w-full h-full object-cover object-center opacity-25 filter contrast-125"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#070A0F] via-[#071B36]/80 to-[#070A0F]" />
         <div className="absolute inset-0 gold-ambient" />
@@ -44,7 +44,7 @@ export default function HeroSection() {
       </div>
 
       {/* Controlled Hero Content Container */}
-      <div className="relative z-10 max-w-[1550px] w-[calc(100%-32px)] sm:w-[calc(100%-64px)] mx-auto px-4 sm:px-6 lg:px-10 text-center flex flex-col items-center">
+      <div className="relative z-10 max-w-[1550px] w-full mx-auto px-4 sm:px-6 lg:px-10 text-center flex flex-col items-center overflow-x-hidden">
         
         {/* Top Kingdom Logo Emblem Header */}
         <div className="mb-4 transform hover:scale-105 transition-transform duration-500 shrink-0">
@@ -52,24 +52,24 @@ export default function HeroSection() {
         </div>
 
         {/* Refined Status Badge */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#071B36]/70 border border-[#D4AF5A]/35 text-[#E6C878] text-[9px] sm:text-xs font-mono tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-4 sm:mb-5 rounded-full gold-border-glow backdrop-blur-md">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#071B36]/70 border border-[#D4AF5A]/35 text-[#E6C878] text-[9px] sm:text-xs font-mono tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-4 sm:mb-5 rounded-full gold-border-glow backdrop-blur-md max-w-full">
           <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-[#D4AF5A] shrink-0" />
           <span className="truncate">PRESENTS NOCTURNE VELOCITY LIVE 2026</span>
         </div>
 
         {/* Main Hero Headline with Responsive Clamp Font Size */}
-        <h1 className="font-serif font-black text-[clamp(32px,8.5vw,115px)] tracking-tight uppercase text-white leading-[0.94] drop-shadow-2xl max-w-6xl mx-auto">
+        <h1 className="font-serif font-black text-[clamp(26px,7.5vw,115px)] tracking-tight uppercase text-white leading-[0.94] drop-shadow-2xl max-w-6xl mx-auto break-words">
           <span className="text-[#E8E8E5] block">EXPERIENCE THE</span>
           <span className="gold-gradient-text block">EXTRAORDINARY</span>
         </h1>
 
         {/* Hero Subtitle */}
-        <p className="mt-4 sm:mt-5 text-xs sm:text-xl lg:text-2xl font-serif text-[#E6C878] tracking-[0.12em] sm:tracking-[0.18em] uppercase font-semibold max-w-3xl">
+        <p className="mt-4 sm:mt-5 text-xs sm:text-xl lg:text-2xl font-serif text-[#E6C878] tracking-[0.1em] sm:tracking-[0.18em] uppercase font-semibold max-w-3xl">
           LIVE HEADLINER: VEX & THE SYNTH SYNDICATE
         </p>
 
         {/* Location & Acoustics Details */}
-        <p className="mt-2 text-[10px] sm:text-xs md:text-sm font-sans text-[#9CA3AF] max-w-2xl leading-relaxed uppercase tracking-[0.08em] sm:tracking-[0.12em]">
+        <p className="mt-2 text-[10px] sm:text-xs md:text-sm font-sans text-[#9CA3AF] max-w-2xl leading-relaxed uppercase tracking-[0.06em] sm:tracking-[0.12em]">
           MUMBAI • CYBERDOME ARENA • 120,000 WATTS ACOUSTICS & 360° LASER MATRIX
         </p>
 
@@ -101,21 +101,21 @@ export default function HeroSection() {
         </div>
 
         {/* Countdown Grid */}
-        <div className="mt-6 grid grid-cols-4 sm:flex items-center gap-1.5 sm:gap-5 font-mono text-center w-full max-w-sm sm:max-w-none">
-          <div className="bg-[#071B36]/80 border border-[#D4AF5A]/30 p-2 sm:p-2.5 rounded-xl">
-            <div className="font-serif font-black text-lg sm:text-3xl text-[#D4AF5A]">{timeLeft.days}</div>
+        <div className="mt-6 grid grid-cols-4 sm:flex items-center justify-center gap-1 sm:gap-5 font-mono text-center w-full max-w-sm sm:max-w-none">
+          <div className="bg-[#071B36]/80 border border-[#D4AF5A]/30 p-1.5 sm:p-2.5 rounded-xl">
+            <div className="font-serif font-black text-base sm:text-3xl text-[#D4AF5A]">{timeLeft.days}</div>
             <div className="text-[7px] sm:text-[9px] text-[#9CA3AF] tracking-widest uppercase">DAYS</div>
           </div>
-          <div className="bg-[#071B36]/80 border border-[#D4AF5A]/30 p-2 sm:p-2.5 rounded-xl">
-            <div className="font-serif font-black text-lg sm:text-3xl text-white">{timeLeft.hours}</div>
+          <div className="bg-[#071B36]/80 border border-[#D4AF5A]/30 p-1.5 sm:p-2.5 rounded-xl">
+            <div className="font-serif font-black text-base sm:text-3xl text-white">{timeLeft.hours}</div>
             <div className="text-[7px] sm:text-[9px] text-[#9CA3AF] tracking-widest uppercase">HOURS</div>
           </div>
-          <div className="bg-[#071B36]/80 border border-[#D4AF5A]/30 p-2 sm:p-2.5 rounded-xl">
-            <div className="font-serif font-black text-lg sm:text-3xl text-white">{timeLeft.minutes}</div>
+          <div className="bg-[#071B36]/80 border border-[#D4AF5A]/30 p-1.5 sm:p-2.5 rounded-xl">
+            <div className="font-serif font-black text-base sm:text-3xl text-white">{timeLeft.minutes}</div>
             <div className="text-[7px] sm:text-[9px] text-[#9CA3AF] tracking-widest uppercase">MINS</div>
           </div>
-          <div className="bg-[#071B36]/80 border border-[#D4AF5A]/30 p-2 sm:p-2.5 rounded-xl">
-            <div className="font-serif font-black text-lg sm:text-3xl text-[#E6C878]">{timeLeft.seconds}</div>
+          <div className="bg-[#071B36]/80 border border-[#D4AF5A]/30 p-1.5 sm:p-2.5 rounded-xl">
+            <div className="font-serif font-black text-base sm:text-3xl text-[#E6C878]">{timeLeft.seconds}</div>
             <div className="text-[7px] sm:text-[9px] text-[#9CA3AF] tracking-widest uppercase">SECS</div>
           </div>
         </div>

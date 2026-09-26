@@ -56,19 +56,19 @@ export default function ScrollReveal({
   const getInitialStyles = () => {
     switch (variant) {
       case 'fade-up':
-        return 'translate-y-12 opacity-0';
+        return 'translate-y-8 opacity-0';
       case 'fade-down':
-        return '-translate-y-12 opacity-0';
+        return '-translate-y-8 opacity-0';
       case 'fade-in':
         return 'opacity-0';
       case 'scale-up':
         return 'scale-95 opacity-0';
       case 'slide-left':
-        return '-translate-x-12 opacity-0';
+        return 'translate-y-6 sm:-translate-x-8 opacity-0';
       case 'slide-right':
-        return 'translate-x-12 opacity-0';
+        return 'translate-y-6 sm:translate-x-8 opacity-0';
       default:
-        return 'translate-y-12 opacity-0';
+        return 'translate-y-8 opacity-0';
     }
   };
 
@@ -84,7 +84,7 @@ export default function ScrollReveal({
         transitionDelay: `${delay}ms`,
         transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)', // Smooth luxury ease-out curve
       }}
-      className={`transition-all transform will-change-[transform,opacity] ${
+      className={`transition-all transform will-change-[transform,opacity] max-w-full overflow-hidden ${
         isVisible ? getVisibleStyles() : getInitialStyles()
       } ${className}`}
     >

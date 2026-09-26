@@ -139,9 +139,9 @@ export default function TicketSelector() {
                   </div>
 
                   {/* Editorial Capacity Bar */}
-                  <div className="mt-4 pt-3 border-t border-[#D4AF5A]/15 flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-[#9CA3AF] uppercase">SALES CAPACITY ({soldPercentage}%)</span>
-                    <div className="w-48 h-1.5 bg-[#070A0F] overflow-hidden">
+                  <div className="mt-4 pt-3 border-t border-[#D4AF5A]/15 flex items-center justify-between text-[10px] font-mono gap-2">
+                    <span className="text-[#9CA3AF] uppercase truncate">SALES CAPACITY ({soldPercentage}%)</span>
+                    <div className="w-24 sm:w-48 h-1.5 bg-[#070A0F] overflow-hidden shrink-0">
                       <div 
                         className={`h-full ${soldPercentage > 85 ? 'bg-[#FF4A00]' : 'gold-gradient-bg'}`} 
                         style={{ width: `${soldPercentage}%` }} 
