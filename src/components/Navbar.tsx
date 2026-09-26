@@ -84,46 +84,60 @@ export default function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile Menu Toggle Button */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden text-[#D4AF5A] hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors"
-          aria-label="Toggle Navigation"
-        >
-          {mobileOpen ? <X className="w-6 h-6 text-[#D4AF5A]" /> : <Menu className="w-6 h-6" />}
-        </button>
+        {/* Mobile Actions & Toggle */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <Button
+            href="/checkout"
+            variant="primary"
+            size="sm"
+            className="h-8 px-3 text-[10px] font-black"
+            icon={<ArrowUpRight className="w-3.5 h-3.5 text-[#070A0F]" />}
+          >
+            TICKETS
+          </Button>
+
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="text-[#D4AF5A] hover:text-white p-1.5 rounded-full hover:bg-white/5 transition-colors"
+            aria-label="Toggle Navigation"
+          >
+            {mobileOpen ? <X className="w-6 h-6 text-[#D4AF5A]" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="lg:hidden bg-[#071B36] border-b border-[#D4AF5A]/30 px-6 py-6 flex flex-col gap-4 font-sans text-xs tracking-[0.2em] uppercase">
-          <Link href="/" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A]">HOME</Link>
-          <Link href="/event" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A]">EVENTS</Link>
-          <Link href="/artist" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A]">ARTISTS</Link>
-          <Link href="/tickets" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A]">ABOUT KINGDOM</Link>
-          <Link href="/venue" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A]">VENUE & MAPS</Link>
-          <Link href="/contact" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A]">CONTACT</Link>
+        <div className="lg:hidden bg-[#070A0F]/98 backdrop-blur-xl border-b border-[#D4AF5A]/30 px-6 py-6 flex flex-col gap-4 font-sans text-xs tracking-[0.2em] uppercase shadow-2xl animate-fadeIn">
+          <Link href="/" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">HOME</Link>
+          <Link href="/event" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">EVENTS</Link>
+          <Link href="/artist" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">ARTISTS</Link>
+          <Link href="/tickets" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">ABOUT KINGDOM</Link>
+          <Link href="/venue" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">VENUE & MAPS</Link>
+          <Link href="/contact" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">CONTACT</Link>
 
-          <div className="pt-4 border-t border-[#D4AF5A]/20 flex flex-col gap-3">
-            <Link href="/my-ticket" onClick={() => setMobileOpen(false)} className="text-[#E8E8E5] flex items-center gap-2">
+          <div className="pt-4 border-t border-[#D4AF5A]/20 flex flex-col gap-3 font-mono">
+            <Link href="/my-ticket" onClick={() => setMobileOpen(false)} className="text-[#E8E8E5] flex items-center gap-2 py-1 hover:text-[#D4AF5A]">
               <Ticket className="w-4 h-4 text-[#D4AF5A]" /> MY PASS PORTAL
             </Link>
-            <Link href="/staff" onClick={() => setMobileOpen(false)} className="text-emerald-400 flex items-center gap-2">
+            <Link href="/staff" onClick={() => setMobileOpen(false)} className="text-emerald-400 flex items-center gap-2 py-1 hover:text-emerald-300">
               <QrCode className="w-4 h-4 text-emerald-400" /> STAFF SCANNER PWA
             </Link>
-            <Link href="/admin" onClick={() => setMobileOpen(false)} className="text-[#D4AF5A] flex items-center gap-2">
+            <Link href="/admin" onClick={() => setMobileOpen(false)} className="text-[#D4AF5A] flex items-center gap-2 py-1 hover:text-white">
               <ShieldAlert className="w-4 h-4 text-[#D4AF5A]" /> ADMIN CONTROL CENTER
             </Link>
-            <Button
-              href="/checkout"
-              onClick={() => setMobileOpen(false)}
-              variant="primary"
-              fullWidth
-              size="md"
-              icon={<ArrowUpRight className="w-4 h-4 text-[#070A0F]" />}
-            >
-              GET TICKETS NOW
-            </Button>
+            <div className="pt-2">
+              <Button
+                href="/checkout"
+                onClick={() => setMobileOpen(false)}
+                variant="primary"
+                fullWidth
+                size="md"
+                icon={<ArrowUpRight className="w-4 h-4 text-[#070A0F]" />}
+              >
+                GET TICKETS NOW
+              </Button>
+            </div>
           </div>
         </div>
       )}

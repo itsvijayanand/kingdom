@@ -74,18 +74,18 @@ export default function Footer() {
             <p className="text-[#9CA3AF] text-xs leading-relaxed">
               Subscribe for private pre-sale announcements, artist meet-and-greet releases, and royal VIP deck access.
             </p>
-            <form onSubmit={(e) => { e.preventDefault(); alert('Subscribed to Kingdom Events dispatch.'); }} className="flex gap-2 pt-1">
+            <form onSubmit={(e) => { e.preventDefault(); alert('Subscribed to Kingdom Events dispatch.'); }} className="flex flex-col sm:flex-row gap-2 pt-1">
               <input
                 type="email"
                 placeholder="Enter email address..."
                 required
-                className="w-full bg-[#071B36] border border-[#D4AF5A]/30 text-white px-4 py-2 text-xs rounded-full focus:border-[#D4AF5A] focus:outline-none"
+                className="w-full bg-[#071B36] border border-[#D4AF5A]/30 text-white px-4 py-2.5 text-xs rounded-full focus:border-[#D4AF5A] focus:outline-none"
               />
               <button
                 type="submit"
-                className="gold-gradient-bg text-[#070A0F] font-bold px-4 py-2 rounded-full hover:brightness-110 transition-all flex items-center justify-center shrink-0 gold-border-glow"
+                className="gold-gradient-bg text-[#070A0F] font-bold px-5 py-2.5 rounded-full hover:brightness-110 transition-all flex items-center justify-center shrink-0 gold-border-glow text-xs"
               >
-                <ArrowUpRight className="w-4 h-4 text-[#070A0F]" />
+                SUBSCRIBE <ArrowUpRight className="w-4 h-4 text-[#070A0F] ml-1" />
               </button>
             </form>
           </div>
