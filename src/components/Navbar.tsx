@@ -17,10 +17,12 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-[#070A0F]/50 backdrop-blur-lg border-b border-[#D4AF5A]/25 py-2.5' : 'bg-transparent py-4 border-b border-transparent'
-    }`}>
-      <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-4">
+    <header className="fixed top-0 left-0 right-0 z-50 pt-3 sm:pt-4 px-3 sm:px-6 lg:px-8 pointer-events-none transition-all duration-300">
+      <div className={`max-w-[1550px] mx-auto rounded-full border transition-all duration-300 px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4 shadow-2xl pointer-events-auto ${
+        scrolled 
+          ? 'bg-[#070A0F]/85 backdrop-blur-xl border-[#D4AF5A]/40 gold-border-glow' 
+          : 'bg-[#070A0F]/45 backdrop-blur-md border-[#D4AF5A]/25 hover:border-[#D4AF5A]/40'
+      }`}>
         
         {/* Kingdom Official Brand Emblem */}
         <div className="shrink-0 flex items-center">
@@ -108,7 +110,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="lg:hidden bg-[#070A0F]/98 backdrop-blur-xl border-b border-[#D4AF5A]/30 px-6 py-6 flex flex-col gap-4 font-sans text-xs tracking-[0.2em] uppercase shadow-2xl animate-fadeIn">
+        <div className="lg:hidden max-w-[1550px] mx-auto mt-2 rounded-2xl bg-[#070A0F]/95 backdrop-blur-xl border border-[#D4AF5A]/30 px-6 py-6 flex flex-col gap-4 font-sans text-xs tracking-[0.2em] uppercase shadow-2xl animate-fadeIn pointer-events-auto">
           <Link href="/" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">HOME</Link>
           <Link href="/event" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">EVENTS</Link>
           <Link href="/artist" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">ARTISTS</Link>
