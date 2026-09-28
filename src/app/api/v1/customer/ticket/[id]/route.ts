@@ -7,11 +7,11 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const ticket = db.getTicketByNumberOrToken(id);
+    const booking = db.lookupAnyBooking(id);
 
-    if (!ticket) {
+    if (!booking) {
       return NextResponse.json(
-        { success: false, error: 'Ticket not found or invalid authorization.' },
+        { success: false, error: 'Booking or ticket not found for the provided identifier.' },
         { status: 404 }
       );
     }
@@ -21,7 +21,8 @@ export async function GET(
     return NextResponse.json({
       success: true,
       data: {
-        ticket,
+        booking,
+        ticket: booking, // fallback for legacy event consumers
         event: {
           title: event.title,
           artist_name: event.artist_name,
@@ -32,6 +33,7 @@ export async function GET(
       }
     });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: 'Failed to fetch ticket.' }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Failed to fetch booking details.' }, { status: 500 });
   }
 }
+

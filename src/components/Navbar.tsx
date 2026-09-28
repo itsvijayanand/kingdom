@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import KingdomLogo from '@/components/KingdomLogo';
 import { Button } from '@/components/Button';
-import { Ticket, QrCode, ShieldAlert, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Ticket, Plane, Train, Bus, Film, QrCode, ShieldAlert, Menu, X, ArrowUpRight } from 'lucide-react';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -15,6 +15,14 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleNavClick = (targetId: string) => {
+    setMobileOpen(false);
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pt-3 sm:pt-4 px-3 sm:px-6 lg:px-8 pointer-events-none transition-all duration-300">
@@ -30,13 +38,25 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-sans text-[11px] font-bold tracking-[0.2em] text-[#E8E8E5] uppercase">
-          <Link href="/" className="hover:text-[#D4AF5A] transition-colors">HOME</Link>
-          <Link href="/event" className="hover:text-[#D4AF5A] transition-colors">EVENTS</Link>
-          <Link href="/artist" className="hover:text-[#D4AF5A] transition-colors">ARTISTS</Link>
-          <Link href="/tickets" className="hover:text-[#D4AF5A] transition-colors">ABOUT</Link>
-          <Link href="/venue" className="hover:text-[#D4AF5A] transition-colors">VENUE</Link>
-          <Link href="/contact" className="hover:text-[#D4AF5A] transition-colors">CONTACT</Link>
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-6 font-sans text-[11px] font-bold tracking-[0.15em] text-[#E8E8E5] uppercase">
+          <a href="#featured" onClick={(e) => { e.preventDefault(); handleNavClick('featured'); }} className="hover:text-[#D4AF5A] transition-colors flex items-center gap-1.5">
+            <Ticket className="w-3.5 h-3.5 text-[#D4AF5A]" /> EVENTS
+          </a>
+          <a href="#travel" onClick={(e) => { e.preventDefault(); handleNavClick('travel'); }} className="hover:text-[#D4AF5A] transition-colors flex items-center gap-1.5">
+            <Plane className="w-3.5 h-3.5 text-[#D4AF5A]" /> FLIGHTS
+          </a>
+          <a href="#travel" onClick={(e) => { e.preventDefault(); handleNavClick('travel'); }} className="hover:text-[#D4AF5A] transition-colors flex items-center gap-1.5">
+            <Train className="w-3.5 h-3.5 text-[#D4AF5A]" /> TRAINS
+          </a>
+          <a href="#travel" onClick={(e) => { e.preventDefault(); handleNavClick('travel'); }} className="hover:text-[#D4AF5A] transition-colors flex items-center gap-1.5">
+            <Bus className="w-3.5 h-3.5 text-[#D4AF5A]" /> BUSES
+          </a>
+          <a href="#movies" onClick={(e) => { e.preventDefault(); handleNavClick('movies'); }} className="hover:text-[#D4AF5A] transition-colors flex items-center gap-1.5">
+            <Film className="w-3.5 h-3.5 text-[#D4AF5A]" /> MOVIES
+          </a>
+          <a href="#your-bookings" onClick={(e) => { e.preventDefault(); handleNavClick('your-bookings'); }} className="hover:text-[#D4AF5A] transition-colors">
+            MY BOOKINGS
+          </a>
         </nav>
 
         {/* Header Right Actions */}
@@ -110,13 +130,25 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="lg:hidden max-w-[1550px] mx-auto mt-2 rounded-2xl bg-[#070A0F]/95 backdrop-blur-xl border border-[#D4AF5A]/30 px-6 py-6 flex flex-col gap-4 font-sans text-xs tracking-[0.2em] uppercase shadow-2xl animate-fadeIn pointer-events-auto">
-          <Link href="/" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">HOME</Link>
-          <Link href="/event" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">EVENTS</Link>
-          <Link href="/artist" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">ARTISTS</Link>
-          <Link href="/tickets" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">ABOUT KINGDOM</Link>
-          <Link href="/venue" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">VENUE & MAPS</Link>
-          <Link href="/contact" onClick={() => setMobileOpen(false)} className="text-white hover:text-[#D4AF5A] py-1 transition-colors">CONTACT</Link>
+        <div className="lg:hidden max-w-[1550px] mx-auto mt-2 rounded-2xl bg-[#070A0F]/95 backdrop-blur-xl border border-[#D4AF5A]/30 px-6 py-6 flex flex-col gap-3 font-sans text-xs tracking-[0.15em] uppercase shadow-2xl animate-fadeIn pointer-events-auto">
+          <a href="#featured" onClick={(e) => { e.preventDefault(); handleNavClick('featured'); }} className="text-white hover:text-[#D4AF5A] py-1 transition-colors flex items-center gap-2">
+            <Ticket className="w-4 h-4 text-[#D4AF5A]" /> EVENTS & CONCERTS
+          </a>
+          <a href="#travel" onClick={(e) => { e.preventDefault(); handleNavClick('travel'); }} className="text-white hover:text-[#D4AF5A] py-1 transition-colors flex items-center gap-2">
+            <Plane className="w-4 h-4 text-[#D4AF5A]" /> FLIGHTS
+          </a>
+          <a href="#travel" onClick={(e) => { e.preventDefault(); handleNavClick('travel'); }} className="text-white hover:text-[#D4AF5A] py-1 transition-colors flex items-center gap-2">
+            <Train className="w-4 h-4 text-[#D4AF5A]" /> TRAINS
+          </a>
+          <a href="#travel" onClick={(e) => { e.preventDefault(); handleNavClick('travel'); }} className="text-white hover:text-[#D4AF5A] py-1 transition-colors flex items-center gap-2">
+            <Bus className="w-4 h-4 text-[#D4AF5A]" /> BUSES
+          </a>
+          <a href="#movies" onClick={(e) => { e.preventDefault(); handleNavClick('movies'); }} className="text-white hover:text-[#D4AF5A] py-1 transition-colors flex items-center gap-2">
+            <Film className="w-4 h-4 text-[#D4AF5A]" /> MOVIES & CINEMAS
+          </a>
+          <a href="#your-bookings" onClick={(e) => { e.preventDefault(); handleNavClick('your-bookings'); }} className="text-white hover:text-[#D4AF5A] py-1 transition-colors flex items-center gap-2">
+            <Ticket className="w-4 h-4 text-[#D4AF5A]" /> MY BOOKINGS
+          </a>
 
           <div className="pt-4 border-t border-[#D4AF5A]/20 flex flex-col gap-3 font-mono">
             <Link href="/my-ticket" onClick={() => setMobileOpen(false)} className="text-[#E8E8E5] flex items-center gap-2 py-1 hover:text-[#D4AF5A]">
@@ -146,3 +178,4 @@ export default function Navbar() {
     </header>
   );
 }
+

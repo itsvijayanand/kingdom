@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import KingdomLogo from '@/components/KingdomLogo';
+import CelestiaLogo from '@/components/KingdomLogo';
 import { Lock, Shield, ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
@@ -12,23 +12,23 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         
-        {/* Large Official Kingdom Logo Branding Header */}
+        {/* Large Official Celestia Logo Branding Header */}
         <div className="border-b border-[#D4AF5A]/20 pb-12 mb-12 text-center flex flex-col items-center">
-          <KingdomLogo size="lg" />
+          <CelestiaLogo size="lg" />
           <p className="text-[#E6C878] font-serif text-sm tracking-[0.25em] uppercase mt-4">
-            ROYAL LUXURY MEETS MODERN LIVE ENTERTAINMENT
+            UNIVERSAL TRAVEL, MOVIES & LIVE ENTERTAINMENT
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           
-          {/* Col 1: About Kingdom */}
+          {/* Col 1: About Celestia Booking */}
           <div className="space-y-4">
             <h3 className="text-[#E8E8E5] font-serif font-bold tracking-[0.2em] uppercase text-sm border-l-2 border-[#D4AF5A] pl-2.5">
-              ABOUT KINGDOM
+              ABOUT CELESTIA
             </h3>
             <p className="text-xs text-[#9CA3AF] leading-relaxed">
-              Kingdom Events and Entertainment creates premium live experiences, high-profile concerts, and exclusive entertainment events across international arenas.
+              Celestia Booking creates premium live experiences, high-profile concerts, intercity luxury travel, express train booking, and cinema tickets across international arenas.
             </p>
             <div className="flex items-center gap-4 text-[10px] text-[#9CA3AF] pt-1 font-mono">
               <span className="flex items-center gap-1"><Lock className="w-3 h-3 text-[#D4AF5A]" /> 256-BIT SSL</span>
@@ -43,9 +43,9 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2 uppercase tracking-wider text-xs">
               <li><Link href="/" className="hover:text-[#D4AF5A] transition-colors">HOME ARCHIVE</Link></li>
-              <li><Link href="/event" className="hover:text-[#D4AF5A] transition-colors">CONCERT EVENT</Link></li>
-              <li><Link href="/artist" className="hover:text-[#D4AF5A] transition-colors">ARTIST SHOWCASE</Link></li>
-              <li><Link href="/tickets" className="hover:text-[#D4AF5A] transition-colors">TICKET DECK</Link></li>
+              <li><Link href="/#featured" className="hover:text-[#D4AF5A] transition-colors">CONCERTS & EVENTS</Link></li>
+              <li><Link href="/#travel" className="hover:text-[#D4AF5A] transition-colors">FLIGHTS & TRAINS</Link></li>
+              <li><Link href="/#movies" className="hover:text-[#D4AF5A] transition-colors">CINEMA SHOWTIMES</Link></li>
               <li><Link href="/venue" className="hover:text-[#D4AF5A] transition-colors">CYBERDOME ARENA MAP</Link></li>
               <li><Link href="/faq" className="hover:text-[#D4AF5A] transition-colors">SECURITY & GATE FAQ</Link></li>
             </ul>
@@ -69,12 +69,12 @@ export default function Footer() {
           {/* Col 4: Newsletter */}
           <div className="space-y-3">
             <h3 className="text-[#E8E8E5] font-serif font-bold tracking-[0.2em] uppercase text-sm border-l-2 border-[#D4AF5A] pl-2.5">
-              KINGDOM DISPATCH
+              CELESTIA DISPATCH
             </h3>
             <p className="text-[#9CA3AF] text-xs leading-relaxed">
-              Subscribe for private pre-sale announcements, artist meet-and-greet releases, and royal VIP deck access.
+              Subscribe for private pre-sale announcements, airline fare drops, and VIP concert deck access.
             </p>
-            <form onSubmit={(e) => { e.preventDefault(); alert('Subscribed to Kingdom Events dispatch.'); }} className="flex flex-col sm:flex-row gap-2 pt-1">
+            <form onSubmit={(e) => { e.preventDefault(); alert('Subscribed to Celestia Booking dispatch.'); }} className="flex flex-col sm:flex-row gap-2 pt-1">
               <input
                 type="email"
                 placeholder="Enter email address..."
@@ -94,9 +94,9 @@ export default function Footer() {
 
         {/* Bottom Editorial Bar */}
         <div className="mt-14 pt-8 border-t border-[#D4AF5A]/15 flex flex-col md:flex-row items-center justify-between text-[11px] text-[#9CA3AF] gap-4">
-          <p>© 2026 KINGDOM EVENTS AND ENTERTAINMENT. ALL RIGHTS RESERVED.</p>
+          <p>© 2026 CELESTIA BOOKING AND ENTERTAINMENT. ALL RIGHTS RESERVED.</p>
           <div className="flex items-center gap-6 font-mono">
-            <span>DOMAIN: www.ahuja-concert.com</span>
+            <span>PLATFORM: CELESTIA BOOKING</span>
             <span>SYSTEM STATUS: OPERATIONAL</span>
           </div>
         </div>

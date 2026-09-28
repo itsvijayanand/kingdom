@@ -3,12 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 
-interface KingdomLogoProps {
+interface CelestiaLogoProps {
   size?: 'sm' | 'md' | 'lg';
   showLink?: boolean;
 }
 
-export default function KingdomLogo({ size = 'md', showLink = true }: KingdomLogoProps) {
+export default function CelestiaLogo({ size = 'md', showLink = true }: CelestiaLogoProps) {
   const sizeClasses = {
     sm: {
       title: 'text-sm sm:text-xl tracking-[0.16em] sm:tracking-[0.2em]',
@@ -37,10 +37,10 @@ export default function KingdomLogo({ size = 'md', showLink = true }: KingdomLog
 
   const logoContent = (
     <div className={`flex flex-col items-center justify-center text-center ${currentSize.gap} group select-none`}>
-      {/* Main KINGDOM Title with Diamond Star Over 'I' */}
+      {/* Main CELESTIA Title with Diamond Star Over 'E' */}
       <div className="relative inline-flex items-center">
         <span className={`font-serif font-extrabold gold-gradient-text uppercase drop-shadow-md ${currentSize.title}`}>
-          K<span className="relative">I<span className="absolute -top-1.5 left-1/2 -translate-x-1/2 text-[#E6C878] text-[80%] font-normal">✦</span></span>NGDOM
+          C<span className="relative">E<span className="absolute -top-1.5 left-1/2 -translate-x-1/2 text-[#E6C878] text-[80%] font-normal">✦</span></span>LESTIA
         </span>
       </div>
 
@@ -53,7 +53,7 @@ export default function KingdomLogo({ size = 'md', showLink = true }: KingdomLog
 
       {/* Subtitle */}
       <span className={`font-sans font-bold text-[#E6C878] uppercase ${currentSize.subtitle}`}>
-        EVENTS AND ENTERTAINMENT
+        BOOKING & ENTERTAINMENT
       </span>
     </div>
   );
@@ -68,3 +68,6 @@ export default function KingdomLogo({ size = 'md', showLink = true }: KingdomLog
 
   return logoContent;
 }
+
+// Export alias for seamless backward compatibility
+export { CelestiaLogo as KingdomLogo };

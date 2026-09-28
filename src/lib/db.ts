@@ -8,7 +8,12 @@ import {
   Gate, 
   StaffUser, 
   ScanLog, 
-  AuditLog 
+  AuditLog,
+  FlightBooking,
+  TrainBooking,
+  BusBooking,
+  MovieBooking,
+  UnifiedBookingItem
 } from './types';
 import crypto from 'crypto';
 
@@ -139,11 +144,187 @@ class ConcertDatabase {
   private scanLogs: ScanLog[] = [];
   private auditLogs: AuditLog[] = [];
 
+  private flightBookings: FlightBooking[] = [];
+  private trainBookings: TrainBooking[] = [];
+  private busBookings: BusBooking[] = [];
+  private movieBookings: MovieBooking[] = [];
+
   constructor() {
     this.seedDemoData();
   }
 
   private seedDemoData() {
+    // Seed Multi-Vertical Demo Bookings
+    this.flightBookings = [
+      {
+        id: 'fl-booking-1',
+        category: 'FLIGHT',
+        pnr: 'FL-KA7892',
+        airline: 'Kingdom Air Royal Fleet',
+        flight_number: 'KA-402',
+        origin: 'Mumbai (BOM)',
+        destination: 'Dubai (DXB)',
+        departure_time: '2026-11-15T08:30:00.000Z',
+        arrival_time: '2026-11-15T10:45:00.000Z',
+        cabin_class: 'First Class Royal Suite',
+        seat_number: '1A',
+        gate: 'A4',
+        terminal: 'Terminal 2',
+        passenger_name: 'Vikramaditya Singh',
+        passenger_email: 'vikram.singh@example.com',
+        price: 48500,
+        status: 'CONFIRMED',
+        qr_token: 'QR-FLIGHT-KA7892-PASSPORT-OK',
+        created_at: newDateStr(-1200)
+      },
+      {
+        id: 'fl-booking-2',
+        category: 'FLIGHT',
+        pnr: 'FL-EK9104',
+        airline: 'Emirates Airways',
+        flight_number: 'EK-501',
+        origin: 'Mumbai (BOM)',
+        destination: 'London Heathrow (LHR)',
+        departure_time: '2026-11-20T02:15:00.000Z',
+        arrival_time: '2026-11-20T07:10:00.000Z',
+        cabin_class: 'Business Class',
+        seat_number: '4K',
+        gate: 'B12',
+        terminal: 'Terminal 2',
+        passenger_name: 'Ananya Roy',
+        passenger_email: 'ananya.roy@example.com',
+        price: 74200,
+        status: 'CONFIRMED',
+        qr_token: 'QR-FLIGHT-EK9104-GATE-B12',
+        created_at: newDateStr(-800)
+      }
+    ];
+
+    this.trainBookings = [
+      {
+        id: 'tr-booking-1',
+        category: 'TRAIN',
+        pnr: '284-9102841',
+        train_number: '22436',
+        train_name: 'Vande Bharat Express',
+        from_station: 'Mumbai CSMT (CSMT)',
+        to_station: 'New Delhi (NDLS)',
+        departure_time: '2026-10-12T06:00:00.000Z',
+        arrival_time: '2026-10-12T18:30:00.000Z',
+        coach: 'E1',
+        berth_number: '14',
+        berth_type: 'Window Seat',
+        passenger_name: 'Rohan Sharma',
+        passenger_email: 'rohan.sharma@example.com',
+        price: 3450,
+        status: 'CONFIRMED',
+        qr_token: 'QR-TRAIN-2849102841-COACH-E1',
+        created_at: newDateStr(-500)
+      },
+      {
+        id: 'tr-booking-2',
+        category: 'TRAIN',
+        pnr: '981-2405991',
+        train_number: '12951',
+        train_name: 'Rajdhani Superfast Special',
+        from_station: 'Mumbai Central (MMCT)',
+        to_station: 'Hazrat Nizamuddin (NZM)',
+        departure_time: '2026-10-25T17:00:00.000Z',
+        arrival_time: '2026-10-26T08:30:00.000Z',
+        coach: 'H1',
+        berth_number: '04',
+        berth_type: '1A Lower Berth',
+        passenger_name: 'Devendra Patel',
+        passenger_email: 'dev.patel@example.com',
+        price: 4890,
+        status: 'CONFIRMED',
+        qr_token: 'QR-TRAIN-9812405991-COACH-H1',
+        created_at: newDateStr(-300)
+      }
+    ];
+
+    this.busBookings = [
+      {
+        id: 'bus-booking-1',
+        category: 'BUS',
+        pnr: 'BUS-901842',
+        operator: 'Kingdom Royal Volvo Sleeper',
+        bus_type: 'Multi-Axle AC Sleeper (2+1)',
+        from_city: 'Mumbai (BKC Hub)',
+        to_city: 'Goa (Panjim Express)',
+        boarding_point: 'BKC Cyberdome Gate 4 Entrance',
+        departure_time: '2026-10-18T21:00:00.000Z',
+        seat_number: 'Lower Sleeper L4',
+        passenger_name: 'Siddharth Malhotra',
+        passenger_email: 'sid.m@example.com',
+        price: 2150,
+        live_tracking_url: 'https://kingdom.express/track/BUS-901842',
+        status: 'CONFIRMED',
+        qr_token: 'QR-BUS-901842-SLEEPER-L4',
+        created_at: newDateStr(-400)
+      },
+      {
+        id: 'bus-booking-2',
+        category: 'BUS',
+        pnr: 'BUS-449102',
+        operator: 'IntrCity SmartBus Scania',
+        bus_type: 'Ultra Executive AC Seater',
+        from_city: 'Bangalore (Majestic)',
+        to_city: 'Hyderabad (HITEC City)',
+        boarding_point: 'Majestic Bus Stand Platform 9',
+        departure_time: '2026-10-22T22:30:00.000Z',
+        seat_number: 'Window Seat 12',
+        passenger_name: 'Meera Nair',
+        passenger_email: 'meera.nair@example.com',
+        price: 1650,
+        live_tracking_url: 'https://kingdom.express/track/BUS-449102',
+        status: 'CONFIRMED',
+        qr_token: 'QR-BUS-449102-SEAT-12',
+        created_at: newDateStr(-200)
+      }
+    ];
+
+    this.movieBookings = [
+      {
+        id: 'mov-booking-1',
+        category: 'MOVIE',
+        booking_id: 'MOV-CYBER2099',
+        movie_title: 'Cyberpunk 2099: Neon Legacy',
+        poster_url: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=800&auto=format&fit=crop',
+        format: 'IMAX 3D Laser • Dolby Atmos',
+        cinema_name: 'Kingdom CyberPlex BKC',
+        screen_name: 'Screen 1 (IMAX GT Dual Laser)',
+        showtime: '2026-10-15T18:45:00.000Z',
+        seats: ['J10', 'J11'],
+        snacks: ['Large Caramel Popcorn', 'Royal Cold Brew Coffee'],
+        passenger_name: 'Aarav Roy',
+        passenger_email: 'aarav.roy@example.com',
+        price: 1850,
+        status: 'CONFIRMED',
+        qr_token: 'QR-MOVIE-CYBER2099-IMAX-J10-J11',
+        created_at: newDateStr(-100)
+      },
+      {
+        id: 'mov-booking-2',
+        category: 'MOVIE',
+        booking_id: 'MOV-DUNE9',
+        movie_title: 'Dune: Prophecy IX',
+        poster_url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop',
+        format: 'VIP Recliner • Dolby Atmos 7.1',
+        cinema_name: 'PVR Directors Cut Lower Parel',
+        screen_name: 'Screen 4 (Gold VIP Suite)',
+        showtime: '2026-10-19T21:30:00.000Z',
+        seats: ['VIP-04', 'VIP-05'],
+        snacks: ['Cheesy Nachos Deluxe', 'Sparkling Mineral Water'],
+        passenger_name: 'Sneha Rao',
+        passenger_email: 'sneha.rao@example.com',
+        price: 2400,
+        status: 'CONFIRMED',
+        qr_token: 'QR-MOVIE-DUNE9-VIP-04-05',
+        created_at: newDateStr(-50)
+      }
+    ];
+
     // Pre-populate realistic historical orders & valid test tickets for demo verification
     const testCustomers = [
       { name: 'Rahul Sharma', email: 'rahul.sharma@example.com', phone: '+91 98765 43210', type: 'VIP', code: 'tt-vip', price: 4999 },
@@ -640,6 +821,114 @@ class ConcertDatabase {
 
   public getTickets(): TicketItem[] {
     return this.tickets;
+  }
+
+  // --- MULTI-VERTICAL BOOKING GETTERS & CREATION ---
+  public getFlightBookings(): FlightBooking[] {
+    return this.flightBookings;
+  }
+
+  public addFlightBooking(booking: Omit<FlightBooking, 'id' | 'category' | 'created_at' | 'status'>): FlightBooking {
+    const newBooking: FlightBooking = {
+      ...booking,
+      id: `fl-${crypto.randomBytes(6).toString('hex')}`,
+      category: 'FLIGHT',
+      status: 'CONFIRMED',
+      created_at: new Date().toISOString()
+    };
+    this.flightBookings.unshift(newBooking);
+    return newBooking;
+  }
+
+  public getTrainBookings(): TrainBooking[] {
+    return this.trainBookings;
+  }
+
+  public addTrainBooking(booking: Omit<TrainBooking, 'id' | 'category' | 'created_at' | 'status'>): TrainBooking {
+    const newBooking: TrainBooking = {
+      ...booking,
+      id: `tr-${crypto.randomBytes(6).toString('hex')}`,
+      category: 'TRAIN',
+      status: 'CONFIRMED',
+      created_at: new Date().toISOString()
+    };
+    this.trainBookings.unshift(newBooking);
+    return newBooking;
+  }
+
+  public getBusBookings(): BusBooking[] {
+    return this.busBookings;
+  }
+
+  public addBusBooking(booking: Omit<BusBooking, 'id' | 'category' | 'created_at' | 'status'>): BusBooking {
+    const newBooking: BusBooking = {
+      ...booking,
+      id: `bus-${crypto.randomBytes(6).toString('hex')}`,
+      category: 'BUS',
+      status: 'CONFIRMED',
+      created_at: new Date().toISOString()
+    };
+    this.busBookings.unshift(newBooking);
+    return newBooking;
+  }
+
+  public getMovieBookings(): MovieBooking[] {
+    return this.movieBookings;
+  }
+
+  public addMovieBooking(booking: Omit<MovieBooking, 'id' | 'category' | 'created_at' | 'status'>): MovieBooking {
+    const newBooking: MovieBooking = {
+      ...booking,
+      id: `mov-${crypto.randomBytes(6).toString('hex')}`,
+      category: 'MOVIE',
+      status: 'CONFIRMED',
+      created_at: new Date().toISOString()
+    };
+    this.movieBookings.unshift(newBooking);
+    return newBooking;
+  }
+
+  public getAllUnifiedBookings(): UnifiedBookingItem[] {
+    const eventBookings: UnifiedBookingItem[] = this.tickets.map(t => ({
+      ...t,
+      category: 'EVENT' as const
+    }));
+    return [
+      ...eventBookings,
+      ...this.flightBookings,
+      ...this.trainBookings,
+      ...this.busBookings,
+      ...this.movieBookings
+    ];
+  }
+
+  public lookupAnyBooking(term: string): UnifiedBookingItem | undefined {
+    const query = term.trim().toLowerCase();
+    if (!query) return undefined;
+
+    // Check Flights by PNR, ID, Token, or Name
+    const flight = this.flightBookings.find(f => f.pnr.toLowerCase().includes(query) || f.id.toLowerCase() === query || f.qr_token.toLowerCase().includes(query) || f.passenger_name.toLowerCase().includes(query));
+    if (flight) return flight;
+
+    // Check Trains by PNR, ID, Token, or Name
+    const train = this.trainBookings.find(t => t.pnr.toLowerCase().includes(query) || t.id.toLowerCase() === query || t.qr_token.toLowerCase().includes(query) || t.passenger_name.toLowerCase().includes(query));
+    if (train) return train;
+
+    // Check Buses by PNR, ID, Token, or Name
+    const bus = this.busBookings.find(b => b.pnr.toLowerCase().includes(query) || b.id.toLowerCase() === query || b.qr_token.toLowerCase().includes(query) || b.passenger_name.toLowerCase().includes(query));
+    if (bus) return bus;
+
+    // Check Movies by Booking ID, ID, Token, or Name
+    const movie = this.movieBookings.find(m => m.booking_id.toLowerCase().includes(query) || m.id.toLowerCase() === query || m.qr_token.toLowerCase().includes(query) || m.passenger_name.toLowerCase().includes(query));
+    if (movie) return movie;
+
+    // Check Events by Ticket Number, Secure Token, ID, or Name
+    const ticket = this.tickets.find(t => t.ticket_number.toLowerCase().includes(query) || t.secure_token.toLowerCase().includes(query) || t.id.toLowerCase() === query || t.customer_name.toLowerCase().includes(query));
+    if (ticket) {
+      return { ...ticket, category: 'EVENT' };
+    }
+
+    return undefined;
   }
 
   private logAudit(actorEmail: string, action: string, entityType: string, entityId: string, changes?: any) {

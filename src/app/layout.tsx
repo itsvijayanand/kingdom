@@ -7,12 +7,12 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 
 export const metadata: Metadata = {
-  title: "NOCTURNE VELOCITY 2026 | Official Live Concert & Ticketing",
-  description: "Official ticketing platform for Nocturne Velocity Live World Tour 2026. Cryptographically secured digital tickets, Razorpay checkout, and real-time gate validation.",
-  keywords: ["concert tickets", "live music", "Nocturne Velocity", "Cyberdome Arena", "Mumbai concert"],
+  title: "CELESTIA BOOKING | Universal Travel, Movies & Event Portal",
+  description: "Official ticketing and booking platform by Celestia Booking. Flights, train tickets, bus passes, cinema showtimes, and live event passes.",
+  keywords: ["Celestia Booking", "flight booking", "train tickets", "bus passes", "movie tickets", "concert passes"],
   openGraph: {
-    title: "NOCTURNE VELOCITY 2026 | Official Live Concert & Ticketing",
-    description: "Secure your tickets for the largest darkwave industrial audio-visual odyssey of 2026.",
+    title: "CELESTIA BOOKING | Universal Travel, Movies & Event Portal",
+    description: "Book flights, trains, buses, cinema tickets, and live concerts on Celestia Booking.",
     images: ["https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop"],
   },
 };

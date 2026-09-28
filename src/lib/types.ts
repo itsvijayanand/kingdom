@@ -139,3 +139,96 @@ export interface AuditLog {
   ip_address?: string;
   created_at: string;
 }
+
+export type BookingCategory = 'FLIGHT' | 'TRAIN' | 'BUS' | 'MOVIE' | 'EVENT';
+
+export interface FlightBooking {
+  id: string;
+  category: 'FLIGHT';
+  pnr: string;
+  airline: string;
+  flight_number: string;
+  origin: string;
+  destination: string;
+  departure_time: string;
+  arrival_time: string;
+  cabin_class: string;
+  seat_number: string;
+  gate: string;
+  terminal: string;
+  passenger_name: string;
+  passenger_email: string;
+  price: number;
+  status: 'CONFIRMED' | 'BOARDED' | 'CANCELLED';
+  qr_token: string;
+  created_at: string;
+}
+
+export interface TrainBooking {
+  id: string;
+  category: 'TRAIN';
+  pnr: string;
+  train_number: string;
+  train_name: string;
+  from_station: string;
+  to_station: string;
+  departure_time: string;
+  arrival_time: string;
+  coach: string;
+  berth_number: string;
+  berth_type: string;
+  passenger_name: string;
+  passenger_email: string;
+  price: number;
+  status: 'CONFIRMED' | 'COMPLETED' | 'CANCELLED';
+  qr_token: string;
+  created_at: string;
+}
+
+export interface BusBooking {
+  id: string;
+  category: 'BUS';
+  pnr: string;
+  operator: string;
+  bus_type: string;
+  from_city: string;
+  to_city: string;
+  boarding_point: string;
+  departure_time: string;
+  seat_number: string;
+  passenger_name: string;
+  passenger_email: string;
+  price: number;
+  live_tracking_url: string;
+  status: 'CONFIRMED' | 'IN_TRANSIT' | 'CANCELLED';
+  qr_token: string;
+  created_at: string;
+}
+
+export interface MovieBooking {
+  id: string;
+  category: 'MOVIE';
+  booking_id: string;
+  movie_title: string;
+  poster_url: string;
+  format: string;
+  cinema_name: string;
+  screen_name: string;
+  showtime: string;
+  seats: string[];
+  snacks: string[];
+  passenger_name: string;
+  passenger_email: string;
+  price: number;
+  status: 'CONFIRMED' | 'USED' | 'CANCELLED';
+  qr_token: string;
+  created_at: string;
+}
+
+export type UnifiedBookingItem = 
+  | (TicketItem & { category: 'EVENT' })
+  | FlightBooking
+  | TrainBooking
+  | BusBooking
+  | MovieBooking;
+
